@@ -4,7 +4,7 @@ description: "Hi. It's good to meet you."
 featured_image: '/images/Drottninggatan.jpg'
 ---
 
-<p style="text-align:center">one-page resume (forthcoming) | <a href = "cv.pdf">academic CV</a></p>
+<p style="text-align:center">one-page resume (forthcoming!) | <a href = "cv.pdf">academic CV</a></p>
 
 I use data as a tool to help me and my collaborators understand the world. Because numbers mean nothing without communication and context, I'm always trying to improve not only my statistical and programming skills, but how I collaborate with others on developing research ideas and communicating results. I love building community and working with people and data that can help facilitate understanding and progress.
 
