@@ -6,9 +6,9 @@ featured_image: '/images/Drottninggatan.jpg'
 
 <p style="text-align:center">one-page resume (forthcoming!) | <a href = "cv.pdf">academic CV</a></p>
 
-I use data as a tool to help me and my collaborators understand the world. Because numbers mean nothing without communication and context, I'm always trying to improve not only my statistical and programming skills, but how I collaborate with others on developing research ideas and communicating results. I love building community and working with people and data that can help facilitate understanding and progress.
+I use data as a tool to help me and my collaborators understand the world. Because numbers mean nothing without communication and context, I'm always trying to improve not only my statistical and programming skills, but how I collaborate with others on developing research ideas and communicating results. I love building community and working with people and data that facilitate understanding and progress.
 
-I use R for data wrangling, statistical analysis, visualization, and reproducible reporting. You can find lots of my code on [Github](http://github.com/jenniferthompson); I've written one R package for cluster bootstrapped multinomial regression *(joint work with Rameela Chandrasekhar)* and one with collections of functions I wrote and use frequently, several focused on reporting results from the `rms` package.
+I use R for data wrangling, statistical analysis, visualization, and reproducible reporting. You can find lots of my code on [Github](http://github.com/jenniferthompson), including two R packages: [ClusterBootMultinom](https://github.com/jenniferthompson/ClusterBootMultinom) and [JTHelpers](https://github.com/jenniferthompson/JTHelpers).
 
 I have an undergraduate degree in math from Harding University, with minors in English, Spanish and management. My Master of Public Health in Biostatistics is from the [Gillings School of Public Health](https://sph.unc.edu/bios/biostatistics/) at the [University of North Carolina-Chapel Hill](https://media.giphy.com/media/3o7abIileRivlGr8Nq/giphy.gif). While at UNC, I worked in the Biometric Consulting Lab under Dr. Gary Koch, who was also my thesis advisor.
 
@@ -20,11 +20,11 @@ Other fun things I'm involved in include:
 
 - [R-Ladies](https://rladies.org)
 
-> <small><i>R-Ladies is a worldwide organization to promote gender diversity in the R community. I coordinate [abstract reviews](https://twitter.com/RLadiesGlobal/status/903516455207088128) for the global leadership team, and co-founded the [Nashville](http://www.meetup.com/rladies-nashville) chapter of R-Ladies with [Lucy D'Agostino McGowan](http://www.lucymcgowan.com). As chapter organizers, we coordinate meetups and curriculum, teach ourselves and encourage others to speak and participate, and foster a sense of supportive community for our members.</i></small>
+> <small><i>R-Ladies is a worldwide organization to promote gender diversity in the R community. I coordinate [abstract reviews](https://twitter.com/RLadiesGlobal/status/903516455207088128) for the global leadership team and co-founded the [Nashville](http://www.meetup.com/rladies-nashville) chapter of R-Ladies with [Lucy D'Agostino McGowan](http://www.lucymcgowan.com). We coordinate meetups and curriculum and foster a sense of supportive community.</i></small>
 
 - Lead statistician, [Society of Critical Care Medicine ABCDEF Bundle Improvement Collaborative](http://www.iculiberation.org/About/collaborative/Pages/default.aspx)
 
-> <small><i>The Collaborative is a 75-center nationwide quality improvement project which aims to optimize outcomes for critically ill patients, both adult and pediatric. While the Collaborative was ongoing, I provided regular progress reports to inform and motivate sites. Once data collection ended, I worked with clinical PIs to write a manuscript looking at the association of Bundle performance with relevant clinical outcomes among adults (manuscript in progress).</i></small>
+> <small><i>The Collaborative is a 75-center nationwide quality improvement project which aims to optimize outcomes for critically ill patients, both adult and pediatric. I provided regular progress reports to inform and motivate sites during data collection, and worked with clinical PIs to write a manuscript looking at the association of Bundle performance with relevant clinical outcomes among adults (manuscript in progress).</i></small>
 
 - [Data for Democracy](http://datafordemocracy.org)
 
