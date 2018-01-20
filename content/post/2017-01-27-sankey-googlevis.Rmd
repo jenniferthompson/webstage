@@ -1,0 +1,323 @@
+---
+title: Sankey Plots Using googleVis
+author: Jennifer Thompson
+date: '2017-01-27'
+featured_image: '/images/sankey_smithsonian.jpg'
+slug: sankey-googlevis
+categories:
+  - R
+  - visualization
+  - interactive
+tags:
+  - plot
+  - R Markdown
+  - Sankey
+  - googleVis
+---
+
+##### Photo: American political parties over time, taken at the National Museum of American History, August 2017
+
+*<small>This post was originally written in January 2017, and slightly updated January 2018</small>*
+
+### Motivation
+
+To visualize the progression of patients over the course of a longitudinal study, I wanted to do a
+[Sankey plot](https://en.wikipedia.org/wiki/Sankey_diagram). After trying a few packages, I ended up using the [googleVis](https://cran.r-project.org/web/packages/googleVis/index.html) package. This was my first experience with [Google Charts](https://developers.google.com/chart/), which works quite differently than most R graphics tools. I'll use a couple of example data sets to demonstrate the process, along with pros and cons.
+
+### What's Google Charts/googleVis?
+
+[Google Charts](https://developers.google.com/chart/interactive/docs/) is a suite of interactive data visualization tools put together, naturally, by Google. They run on JavaScript; as of the current writing I have essentially zero experience with JavaScript. So trust me, if I can use them, so can you!
+
+Because Google Charts are interactive, they need to be opened in a web browser with internet access available.
+
+[googleVis](https://cran.r-project.org/web/packages/googleVis/vignettes/googleVis.pdf) is an R package developed to allow R users to work directly with Google Charts. As with Google Charts itself, the documentation is detailed and there are several vignettes, which is incredibly helpful. Many, many thanks to the package authors, Markus Gesmann and Diego de Castillo.
+
+### Example 1: US Immigration Data, 2015
+
+We'll use some US immigration data from [data.world](https://data.world) on the countries and general admission classes of those who received United States permanent residencies (green cards) in 2015. I downloaded the data
+[here](https://data.world/rflprr/us-immigration-statistics-15); more information on the data set can be found [here](https://www.dhs.gov/immigration-statistics/yearbook/2015/table10).
+<br>
+
+#### Data Import & Management
+
+We'll look at only regions (not individual countries) and combine the two types of [family-based immigrant visas](https://travel.state.gov/content/visas/en/immigrate/family/family-preference.html).
+
+```{r data_immigration, message = FALSE}
+## Set knitr global chunk options
+knitr::opts_chunk$set(message = FALSE)
+
+library(readxl)
+library(tidyverse)
+
+## Looking at original spreadsheet, sheet Table10 contains the data we want
+immigration <- read_excel("dhs.xlsx", sheet = "Table10")
+
+## Rename columns - we don't want spaces or special characters
+names(immigration) <- c(
+  'Region', 'Total', 'Family_Sponsored', 'Employment',
+  'Immediate_Relatives', 'Diversity', 'Refugees', 'Other'
+)
+
+## Vector of regions we want to look at
+regions <- c(
+  'Africa', 'Asia', 'Europe', 'North America', 'Oceania', 'South America',
+  'Unknown'
+)
+
+## Function to strip commas out of values and change to numeric -
+##  we'll use this in our pipeline
+comma_num <- function(x){
+  as.numeric(gsub(',', '', x))
+}
+
+## Data management pipeline
+immigration <- immigration %>%
+  ## Keep only the regions we want (vs individual countries)
+  filter(Region %in% regions) %>%
+  ## Take out the duplicate row for Unknown
+  unique() %>%
+  ## Make all columns numeric that should be numeric
+  mutate(Family_Sponsored = comma_num(Family_Sponsored),
+         Employment = comma_num(Employment),
+         Immediate_Relatives = comma_num(Immediate_Relatives),
+         Diversity = comma_num(Diversity),
+         Refugees = comma_num(Refugees),
+         Other = comma_num(Other),
+         Family_Preference = Family_Sponsored + Immediate_Relatives) %>%
+  ## Take out Total and original family preference classes
+  select(-Total, -Family_Sponsored, -Immediate_Relatives)
+
+## Check out the resulting data set
+immigration
+
+```
+
+#### Formatting Data
+
+We want the source (lefthand) nodes to be the region, and the target (righthand) nodes to be the immigration class. Source nodes must be in the first column, target nodes must be in the second column, and weights (in our case, counts) must be in the third column.
+
+```{r sankeydata_immigration}
+sankey_immigration <- immigration %>%
+  gather(key = Admission_Class, value = Residents, -Region)
+
+sankey_immigration
+
+```
+
+#### Create Immigration Plot
+
+Now let's make the plot, using all the default settings. `gvis_immigration` is the object created by `googleVis::gvisSankey()`. If we `plot(gvis_immigration)`, the plot will open in a new browser tab; here, we'll `print(gvis_immigration)` so the plot will be shown directly in our HTML document. We'll also set `tag = 'chart'` so that only code for the chart itself will be extracted, versus enough HTML to produce a whole separate web page. *(If you forget to do this, the multiple sets of `<html>` tags can make for some wacky results. Ask me how I know.)*
+
+```{r sankeyplot_immigration, results = 'asis'}
+library(googleVis)
+
+## Create gvis object
+gvis_immigration <- gvisSankey(sankey_immigration,
+                               from = 'Region',
+                               to = 'Admission_Class',
+                               weight = 'Residents')
+
+## Print gvis object - chart only, not full HTML
+print(gvis_immigration, tag = 'chart')
+
+```
+
+We can quickly see that most green card recipients in 2015 came from either North America or Asia, and the majority of them had one of the two kinds of family preference visas. There were about as many new permanent residents in 2015 who entered the US as refugees/asylees as entered with employment visas.
+
+The defaults look pretty good, but what if I have some specific requirements?
+
+### Example 2: Longitudinal Study Progression
+
+We'll focus here on *customizing* the result when describing patient progression in a [study](http://www.nejm.org/doi/full/10.1056/NEJMoa1301372#t=article) I was involved in (raw data [here](http://www.nejm.org/doi/suppl/10.1056/NEJMoa1301372/suppl_file/nejmoa1301372_appendix.pdf), page 17). I put the raw data in a [Google Sheet](https://docs.google.com/spreadsheets/d/1G5io4sGsnlqOJf4u4jVxlfnXN8ajYrIcXU0RAj7MZMM/edit?usp=sharing) and used the [`googlesheets`](https://cran.r-project.org/web/packages/googlesheets/index.html) package by Jenny Bryan and Joanna Zhao to read in the data.
+
+```{r import_brain_data}
+library(googlesheets)
+
+## Register title of spreadsheet containing data sets
+brain_sheets <- gs_title('BRAIN-ICU Patient Progression')
+
+## Read in original raw data; verbose = FALSE suppresses download messages
+brain_original <- brain_sheets %>%
+  gs_read("Original", verbose = FALSE)
+
+```
+
+```{r gvis_brain_defaults, results = 'asis'}
+## Create gvis object
+gvis_brain_defaults <- gvisSankey(brain_original,
+                                  from = 'sourceNode',
+                                  to = 'targetNode',
+                                  weight = 'Patients')
+
+## Print gvis object - chart only, not full HTML
+print(gvis_brain_defaults, tag = 'chart')
+
+```
+
+This is somewhat helpful, but not as helpful as it could be. Can we change the vertical order of the nodes? Could the nodes of the same type - all the deaths, for example - be the same color all the way through the study so they're easier to track? Could the [tooltips](https://en.wikipedia.org/wiki/Tooltip) be more informative? The answer is, of course, yes!
+
+#### Reordering the Plot
+
+Let's say we want the plot to keep the patients with the most involvement - eg, those alive and evaluated at each time point - up at the top, and patients with the least involvement down at the bottom. To do that with googleVis, we need our data frame to be in that order. Here, I just did it manually; it's stored in the second worksheet of my Google Sheet.
+
+##### Note on googleVis options
+
+> *<small>Options are specified using a named list. Some of the pieces are googleVis-generic (height and width, for example, and whether the tooltip includes HTML); others are Sankey-plot-specific and are specified in a string named `sankey`. Note that this needs to be in Javascript format; the Google Charts/googleVis documentation are quite helpful here.</small>*
+
+In order for our ordering to work, we need to set the `sankey`-specific option for `iterations` to 0. This keeps googleVis from using its default algorithm to figure out its own "best" placement for each node. We'll also use `options` to make the plot wider.
+
+```{r gvis_brain_ordered, results = 'asis'}
+## Import reordered data from Google Sheet
+brain_reordered <- brain_sheets %>%
+  gs_read("Reordered", verbose = FALSE)
+
+## Create gvis object
+gvis_brain_ordered <- gvisSankey(brain_reordered,
+                                 from = 'sourceNode',
+                                 to = 'targetNode',
+                                 weight = 'Patients',
+                                 options = list(height = 400, width = 700,
+                                                sankey = "{iterations: 0
+                                                          }"))
+
+## Print gvis object - chart only, not full HTML
+print(gvis_brain_ordered, tag = 'chart')
+
+```
+
+#### Informative Tooltips
+
+By default, the tooltips for each edge show the source and target nodes along with the weight (here, the number of patients). But wouldn't it be good to know, for example, what proportion of patients each weight represents out of the source and target nodes? To do that, we just need to include the text we want as a column in our data frame, with a name that ends in `.tooltip`. We can include HTML formatting in these tooltips; we'll need to specify this in our `options` list (see below). For a longer intro, see the [Roles googleVis vignette](https://cran.r-project.org/web/packages/googleVis/vignettes/Using_Roles_via_googleVis.html).
+
+```{r add_tooltip_info}
+## Get total number of patients at each source, target node at each time point
+source_ns <- brain_reordered %>%
+  group_by(sourceNode) %>%
+  summarise(sourceN = sum(Patients)) %>%
+  ungroup()
+
+target_ns <- brain_reordered %>%
+  group_by(targetNode) %>%
+  summarise(targetN = sum(Patients)) %>%
+  ungroup()
+
+## Add source/target Ns and create tooltip text specific to source/target nodes
+brain_reordered <- brain_reordered %>%
+  left_join(source_ns, by = 'sourceNode') %>%
+  left_join(target_ns, by = 'targetNode') %>%
+  mutate(
+    to_from = paste0('<b>', sourceNode, ' -> ', targetNode, ':</b>'),
+    brain.tooltip = ## Target nodes where 100% of patients came from same source:
+      ## N + % (n) of source
+      ifelse(targetNode %in% c('Eligible for followup',
+                               'Withdrew in hospital',
+                               'Died in hospital',
+                               'Evaluated, 3m',
+                               'Lost to followup, 3m'),
+             paste0(to_from, '<br>N = ', Patients, '<br>',
+                    round((Patients / sourceN) * 100), '% of ',
+                    sourceN, ' ', tolower(sourceNode)),
+             ## Source nodes where 100% of patients go to same target:
+             ## N + % (n) of target
+             ifelse(sourceNode %in% c('Withdrew in hospital',
+                                      'Died in hospital',
+                                      'Died, 3m',
+                                      'Withdrew, 3m'),
+                    paste0(to_from, '<br>N = ', Patients, '<br>',
+                           round((Patients / targetN) * 100), '% of ',
+                           targetN, ' ', tolower(targetNode)),
+                    ## Otherwise, add N, % (n) of source, and % (n) of target
+                    paste0(to_from, '<br>N = ', Patients,
+                           '<br>', round((Patients / sourceN) * 100),
+                           '% of ', sourceN, ' ', tolower(sourceNode),
+                           '<br>', round((Patients / targetN) * 100),
+                           '% of ', targetN, ' ', tolower(targetNode))))
+  )
+
+```
+
+#### Beautiful Colors
+
+You know what would make this plot even better? Color! Specifically, what if all the nodes and edges for patients who died were the same color, and all the nodes for withdrawals were the same color, and...?
+
+Unlike other Sankey plot packages, unfortunately, you can't quickly specify that "nodes named this should be blue" - here, it's a manual process, and it's not always obvious what order the colors should be specified in to match each node. My technique: Include a manual color specification of the same color for every node, then one by one turn each one bright yellow or something obvious, figure out what color it *should* be, change that one, and iterate till you're done. Not ideal, but doable.
+
+We specify colors using the `node` piece of the `sankey` element of `options`. We'll also use these options to tweak the labels and use color gradients for the edges rather than the default gray.
+
+#### Final Progression Plot
+
+```{r gvis_brain_final, results = 'asis'}
+## #B71C1C = died
+## #FF6F00 = withdrew
+## #FFECB3 = lost to followup
+## #1B5E20 = eligible/evaluated
+## #1A237E = enrolled
+
+## Create gvis object
+gvis_brain_final <-
+  gvisSankey(
+    brain_reordered,
+    from = 'sourceNode',
+    to = 'targetNode',
+    weight = 'Patients',
+    options = list(height = 400, width = 705,
+                   tooltip = "{isHtml:'True'}",
+                   sankey = "{link: { colorMode: 'gradient' },
+                              node: { colors: ['#1A237E',
+                                               '#1B5E20',
+                                               '#FF6F00',
+                                               '#B71C1C',
+                                               '#1B5E20',
+                                               '#FFECB3',
+                                               '#FF6F00',
+                                               '#B71C1C',
+                                               '#1B5E20',
+                                               '#FFECB3',
+                                               '#FF6F00',
+                                               '#B71C1C'],
+                                      label: { fontSize: 14, bold: true }
+                                    },
+                              iterations: 0
+                              }")
+  )
+
+## Print gvis object - chart only, not full HTML
+print(gvis_brain_final, tag = 'chart')
+
+```
+
+Pretty, right?
+
+### Pros, Cons and Other Options
+
+#### Pros
+
+- Even the defaults look good; the finished product looks really polished without too much effort.
+- Interactivity can be quite helpful depending on your context.
+- Plots are largely customizable - it's easy to generate informative tooltips, and easy-to-doable to do other custom configurations.
+- HTML format is straightforward to include in RMarkdown documents/notebooks. googleVis objects can also be included in [Shiny apps](https://shiny.rstudio.com/gallery/google-charts.html).
+
+#### Cons
+
+- Plots can't be opened outside a web browser. No saving to a PDF for manuscript submission.
+- Unlike other Sankey plot packages, we can't specify X/Y placement. (For example, in the longitudinal study above, it might have been nice to have the horizontal distances better represent the time between followup points in our study; to my knowledge, that isn't possible.)
+- Other packages also have easier ways to specify colors and node labels.
+
+<p>
+<a href = "http://www.gilmoregirls.org/eguide/episode317.html"><img src = "/images/gilmore_procon.jpg" style="width:346px;height:202px" alt = "Lorelai and Rory Gilmore making a pro/con list""></a>
+</p>
+
+#### Other Packages to Check Out
+
+I looked at both the [riverplot](https://cran.r-project.org/web/packages/riverplot/index.html) ([author blog post](https://logfc.wordpress.com/2014/02/27/riverplot/)) and [sankey](https://cran.r-project.org/web/packages/sankey/index.html) ([Github](https://github.com/mangothecat/sankey)) packages during this process. [This](http://timelyportfolio.github.io/rCharts_d3_sankey/example_build_network_sankey.html) is also a nice post on using igraph and rcharts to create a Sankey plot. Depending on what you're after, one of these might work for you.
+
+### Session Details
+
+My R setup at the time this post was written is detailed below.
+
+<details>
+```{r session_info}
+devtools::session_info()
+
+```
+</details>

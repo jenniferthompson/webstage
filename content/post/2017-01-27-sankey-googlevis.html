@@ -1,0 +1,1238 @@
+---
+title: Sankey Plots Using googleVis
+author: Jennifer Thompson
+date: '2017-01-27'
+featured_image: '/images/sankey_smithsonian.jpg'
+slug: sankey-googlevis
+categories:
+  - R
+  - visualization
+  - interactive
+tags:
+  - plot
+  - R Markdown
+  - Sankey
+  - googleVis
+---
+
+
+
+<div id="photo-american-political-parties-over-time-taken-at-the-national-museum-of-american-history-august-2017" class="section level5">
+<h5>Photo: American political parties over time, taken at the National Museum of American History, August 2017</h5>
+<p><em><small>This post was originally written in January 2017, and slightly updated January 2018</small></em></p>
+</div>
+<div id="motivation" class="section level3">
+<h3>Motivation</h3>
+<p>To visualize the progression of patients over the course of a longitudinal study, I wanted to do a <a href="https://en.wikipedia.org/wiki/Sankey_diagram">Sankey plot</a>. After trying a few packages, I ended up using the <a href="https://cran.r-project.org/web/packages/googleVis/index.html">googleVis</a> package. This was my first experience with <a href="https://developers.google.com/chart/">Google Charts</a>, which works quite differently than most R graphics tools. I’ll use a couple of example data sets to demonstrate the process, along with pros and cons.</p>
+</div>
+<div id="whats-google-chartsgooglevis" class="section level3">
+<h3>What’s Google Charts/googleVis?</h3>
+<p><a href="https://developers.google.com/chart/interactive/docs/">Google Charts</a> is a suite of interactive data visualization tools put together, naturally, by Google. They run on JavaScript; as of the current writing I have essentially zero experience with JavaScript. So trust me, if I can use them, so can you!</p>
+<p>Because Google Charts are interactive, they need to be opened in a web browser with internet access available.</p>
+<p><a href="https://cran.r-project.org/web/packages/googleVis/vignettes/googleVis.pdf">googleVis</a> is an R package developed to allow R users to work directly with Google Charts. As with Google Charts itself, the documentation is detailed and there are several vignettes, which is incredibly helpful. Many, many thanks to the package authors, Markus Gesmann and Diego de Castillo.</p>
+</div>
+<div id="example-1-us-immigration-data-2015" class="section level3">
+<h3>Example 1: US Immigration Data, 2015</h3>
+<p>We’ll use some US immigration data from <a href="https://data.world">data.world</a> on the countries and general admission classes of those who received United States permanent residencies (green cards) in 2015. I downloaded the data <a href="https://data.world/rflprr/us-immigration-statistics-15">here</a>; more information on the data set can be found <a href="https://www.dhs.gov/immigration-statistics/yearbook/2015/table10">here</a>. <br></p>
+<div id="data-import-management" class="section level4">
+<h4>Data Import &amp; Management</h4>
+<p>We’ll look at only regions (not individual countries) and combine the two types of <a href="https://travel.state.gov/content/visas/en/immigrate/family/family-preference.html">family-based immigrant visas</a>.</p>
+<pre class="r"><code>## Set knitr global chunk options
+knitr::opts_chunk$set(message = FALSE)
+
+library(readxl)
+library(tidyverse)
+
+## Looking at original spreadsheet, sheet Table10 contains the data we want
+immigration &lt;- read_excel(&quot;dhs.xlsx&quot;, sheet = &quot;Table10&quot;)
+
+## Rename columns - we don&#39;t want spaces or special characters
+names(immigration) &lt;- c(
+  &#39;Region&#39;, &#39;Total&#39;, &#39;Family_Sponsored&#39;, &#39;Employment&#39;,
+  &#39;Immediate_Relatives&#39;, &#39;Diversity&#39;, &#39;Refugees&#39;, &#39;Other&#39;
+)
+
+## Vector of regions we want to look at
+regions &lt;- c(
+  &#39;Africa&#39;, &#39;Asia&#39;, &#39;Europe&#39;, &#39;North America&#39;, &#39;Oceania&#39;, &#39;South America&#39;,
+  &#39;Unknown&#39;
+)
+
+## Function to strip commas out of values and change to numeric -
+##  we&#39;ll use this in our pipeline
+comma_num &lt;- function(x){
+  as.numeric(gsub(&#39;,&#39;, &#39;&#39;, x))
+}
+
+## Data management pipeline
+immigration &lt;- immigration %&gt;%
+  ## Keep only the regions we want (vs individual countries)
+  filter(Region %in% regions) %&gt;%
+  ## Take out the duplicate row for Unknown
+  unique() %&gt;%
+  ## Make all columns numeric that should be numeric
+  mutate(Family_Sponsored = comma_num(Family_Sponsored),
+         Employment = comma_num(Employment),
+         Immediate_Relatives = comma_num(Immediate_Relatives),
+         Diversity = comma_num(Diversity),
+         Refugees = comma_num(Refugees),
+         Other = comma_num(Other),
+         Family_Preference = Family_Sponsored + Immediate_Relatives) %&gt;%
+  ## Take out Total and original family preference classes
+  select(-Total, -Family_Sponsored, -Immediate_Relatives)
+
+## Check out the resulting data set
+immigration</code></pre>
+<pre><code>## # A tibble: 7 x 6
+##   Region        Employment Diversity Refugees   Other Family_Preference
+##   &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;             &lt;dbl&gt;
+## 1 Africa            4813     19659    27104     480               49359
+## 2 Asia             89533     14562    67603    8842              238757
+## 3 Europe           20945     11425     3317     332               49784
+## 4 North America    18238       667    51535   16888              278798
+## 5 Oceania           1186       721       37.0    19.0              3441
+## 6 South America     9296       878     2346    1473               58316
+## 7 Unknown             36.0      22.0     53.0    43.0               523</code></pre>
+</div>
+<div id="formatting-data" class="section level4">
+<h4>Formatting Data</h4>
+<p>We want the source (lefthand) nodes to be the region, and the target (righthand) nodes to be the immigration class. Source nodes must be in the first column, target nodes must be in the second column, and weights (in our case, counts) must be in the third column.</p>
+<pre class="r"><code>sankey_immigration &lt;- immigration %&gt;%
+  gather(key = Admission_Class, value = Residents, -Region)
+
+sankey_immigration</code></pre>
+<pre><code>## # A tibble: 35 x 3
+##    Region        Admission_Class Residents
+##    &lt;chr&gt;         &lt;chr&gt;               &lt;dbl&gt;
+##  1 Africa        Employment         4813  
+##  2 Asia          Employment        89533  
+##  3 Europe        Employment        20945  
+##  4 North America Employment        18238  
+##  5 Oceania       Employment         1186  
+##  6 South America Employment         9296  
+##  7 Unknown       Employment           36.0
+##  8 Africa        Diversity         19659  
+##  9 Asia          Diversity         14562  
+## 10 Europe        Diversity         11425  
+## # ... with 25 more rows</code></pre>
+</div>
+<div id="create-immigration-plot" class="section level4">
+<h4>Create Immigration Plot</h4>
+<p>Now let’s make the plot, using all the default settings. <code>gvis_immigration</code> is the object created by <code>googleVis::gvisSankey()</code>. If we <code>plot(gvis_immigration)</code>, the plot will open in a new browser tab; here, we’ll <code>print(gvis_immigration)</code> so the plot will be shown directly in our HTML document. We’ll also set <code>tag = 'chart'</code> so that only code for the chart itself will be extracted, versus enough HTML to produce a whole separate web page. <em>(If you forget to do this, the multiple sets of <code>&lt;html&gt;</code> tags can make for some wacky results. Ask me how I know.)</em></p>
+<pre class="r"><code>library(googleVis)
+
+## Create gvis object
+gvis_immigration &lt;- gvisSankey(sankey_immigration,
+                               from = &#39;Region&#39;,
+                               to = &#39;Admission_Class&#39;,
+                               weight = &#39;Residents&#39;)
+
+## Print gvis object - chart only, not full HTML
+print(gvis_immigration, tag = &#39;chart&#39;)</code></pre>
+<!-- Sankey generated in R 3.4.3 by googleVis 0.6.2 package -->
+<!-- Sat Jan 20 15:45:31 2018 -->
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataSankeyID465b9b2c () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+"Africa",
+"Employment",
+4813
+],
+[
+"Asia",
+"Employment",
+89533
+],
+[
+"Europe",
+"Employment",
+20945
+],
+[
+"North America",
+"Employment",
+18238
+],
+[
+"Oceania",
+"Employment",
+1186
+],
+[
+"South America",
+"Employment",
+9296
+],
+[
+"Unknown",
+"Employment",
+36
+],
+[
+"Africa",
+"Diversity",
+19659
+],
+[
+"Asia",
+"Diversity",
+14562
+],
+[
+"Europe",
+"Diversity",
+11425
+],
+[
+"North America",
+"Diversity",
+667
+],
+[
+"Oceania",
+"Diversity",
+721
+],
+[
+"South America",
+"Diversity",
+878
+],
+[
+"Unknown",
+"Diversity",
+22
+],
+[
+"Africa",
+"Refugees",
+27104
+],
+[
+"Asia",
+"Refugees",
+67603
+],
+[
+"Europe",
+"Refugees",
+3317
+],
+[
+"North America",
+"Refugees",
+51535
+],
+[
+"Oceania",
+"Refugees",
+37
+],
+[
+"South America",
+"Refugees",
+2346
+],
+[
+"Unknown",
+"Refugees",
+53
+],
+[
+"Africa",
+"Other",
+480
+],
+[
+"Asia",
+"Other",
+8842
+],
+[
+"Europe",
+"Other",
+332
+],
+[
+"North America",
+"Other",
+16888
+],
+[
+"Oceania",
+"Other",
+19
+],
+[
+"South America",
+"Other",
+1473
+],
+[
+"Unknown",
+"Other",
+43
+],
+[
+"Africa",
+"Family_Preference",
+49359
+],
+[
+"Asia",
+"Family_Preference",
+238757
+],
+[
+"Europe",
+"Family_Preference",
+49784
+],
+[
+"North America",
+"Family_Preference",
+278798
+],
+[
+"Oceania",
+"Family_Preference",
+3441
+],
+[
+"South America",
+"Family_Preference",
+58316
+],
+[
+"Unknown",
+"Family_Preference",
+523
+] 
+];
+data.addColumn('string','Region');
+data.addColumn('string','Admission_Class');
+data.addColumn('number','Residents');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartSankeyID465b9b2c() {
+var data = gvisDataSankeyID465b9b2c();
+var options = {};
+options["width"] = 400;
+options["height"] = 400;
+
+    var chart = new google.visualization.Sankey(
+    document.getElementById('SankeyID465b9b2c')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "sankey";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartSankeyID465b9b2c);
+})();
+function displayChartSankeyID465b9b2c() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+<!-- jsChart -->
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartSankeyID465b9b2c"></script>
+<!-- divChart -->
+<div id="SankeyID465b9b2c" style="width: 400; height: 400;">
+
+</div>
+<p>We can quickly see that most green card recipients in 2015 came from either North America or Asia, and the majority of them had one of the two kinds of family preference visas. There were about as many new permanent residents in 2015 who entered the US as refugees/asylees as entered with employment visas.</p>
+<p>The defaults look pretty good, but what if I have some specific requirements?</p>
+</div>
+</div>
+<div id="example-2-longitudinal-study-progression" class="section level3">
+<h3>Example 2: Longitudinal Study Progression</h3>
+<p>We’ll focus here on <em>customizing</em> the result when describing patient progression in a <a href="http://www.nejm.org/doi/full/10.1056/NEJMoa1301372#t=article">study</a> I was involved in (raw data <a href="http://www.nejm.org/doi/suppl/10.1056/NEJMoa1301372/suppl_file/nejmoa1301372_appendix.pdf">here</a>, page 17). I put the raw data in a <a href="https://docs.google.com/spreadsheets/d/1G5io4sGsnlqOJf4u4jVxlfnXN8ajYrIcXU0RAj7MZMM/edit?usp=sharing">Google Sheet</a> and used the <a href="https://cran.r-project.org/web/packages/googlesheets/index.html"><code>googlesheets</code></a> package by Jenny Bryan and Joanna Zhao to read in the data.</p>
+<pre class="r"><code>library(googlesheets)
+
+## Register title of spreadsheet containing data sets
+brain_sheets &lt;- gs_title(&#39;BRAIN-ICU Patient Progression&#39;)
+
+## Read in original raw data; verbose = FALSE suppresses download messages
+brain_original &lt;- brain_sheets %&gt;%
+  gs_read(&quot;Original&quot;, verbose = FALSE)</code></pre>
+<pre class="r"><code>## Create gvis object
+gvis_brain_defaults &lt;- gvisSankey(brain_original,
+                                  from = &#39;sourceNode&#39;,
+                                  to = &#39;targetNode&#39;,
+                                  weight = &#39;Patients&#39;)
+
+## Print gvis object - chart only, not full HTML
+print(gvis_brain_defaults, tag = &#39;chart&#39;)</code></pre>
+<!-- Sankey generated in R 3.4.3 by googleVis 0.6.2 package -->
+<!-- Sat Jan 20 15:45:34 2018 -->
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataSankeyID465b55398d8b () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+"Enrolled",
+"Withdrew in hospital",
+39
+],
+[
+"Enrolled",
+"Died in hospital",
+151
+],
+[
+"Enrolled",
+"Eligible for followup",
+636
+],
+[
+"Eligible for followup",
+"Died, 3m",
+101
+],
+[
+"Eligible for followup",
+"Withdrew, 3m",
+40
+],
+[
+"Eligible for followup",
+"Lost to followup, 3m",
+47
+],
+[
+"Eligible for followup",
+"Evaluated, 3m",
+448
+],
+[
+"Lost to followup, 3m",
+"Lost to followup, 12m",
+28
+],
+[
+"Lost to followup, 3m",
+"Evaluated, 12m",
+19
+],
+[
+"Evaluated, 3m",
+"Died, 12m",
+59
+],
+[
+"Evaluated, 3m",
+"Withdrew, 12m",
+14
+],
+[
+"Evaluated, 3m",
+"Lost to followup, 12m",
+12
+],
+[
+"Evaluated, 3m",
+"Evaluated, 12m",
+382
+],
+[
+"Withdrew in hospital",
+"Withdrew, 3m",
+34
+],
+[
+"Withdrew, 3m",
+"Withdrew, 12m",
+74
+],
+[
+"Died in hospital",
+"Died, 3m",
+151
+],
+[
+"Died, 3m",
+"Died, 12m",
+252
+] 
+];
+data.addColumn('string','sourceNode');
+data.addColumn('string','targetNode');
+data.addColumn('number','Patients');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartSankeyID465b55398d8b() {
+var data = gvisDataSankeyID465b55398d8b();
+var options = {};
+options["width"] = 400;
+options["height"] = 400;
+
+    var chart = new google.visualization.Sankey(
+    document.getElementById('SankeyID465b55398d8b')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "sankey";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartSankeyID465b55398d8b);
+})();
+function displayChartSankeyID465b55398d8b() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+<!-- jsChart -->
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartSankeyID465b55398d8b"></script>
+<!-- divChart -->
+<div id="SankeyID465b55398d8b" style="width: 400; height: 400;">
+
+</div>
+<p>This is somewhat helpful, but not as helpful as it could be. Can we change the vertical order of the nodes? Could the nodes of the same type - all the deaths, for example - be the same color all the way through the study so they’re easier to track? Could the <a href="https://en.wikipedia.org/wiki/Tooltip">tooltips</a> be more informative? The answer is, of course, yes!</p>
+<div id="reordering-the-plot" class="section level4">
+<h4>Reordering the Plot</h4>
+<p>Let’s say we want the plot to keep the patients with the most involvement - eg, those alive and evaluated at each time point - up at the top, and patients with the least involvement down at the bottom. To do that with googleVis, we need our data frame to be in that order. Here, I just did it manually; it’s stored in the second worksheet of my Google Sheet.</p>
+<div id="note-on-googlevis-options" class="section level5">
+<h5>Note on googleVis options</h5>
+<blockquote>
+<p><em><small>Options are specified using a named list. Some of the pieces are googleVis-generic (height and width, for example, and whether the tooltip includes HTML); others are Sankey-plot-specific and are specified in a string named <code>sankey</code>. Note that this needs to be in Javascript format; the Google Charts/googleVis documentation are quite helpful here.</small></em></p>
+</blockquote>
+<p>In order for our ordering to work, we need to set the <code>sankey</code>-specific option for <code>iterations</code> to 0. This keeps googleVis from using its default algorithm to figure out its own “best” placement for each node. We’ll also use <code>options</code> to make the plot wider.</p>
+<pre class="r"><code>## Import reordered data from Google Sheet
+brain_reordered &lt;- brain_sheets %&gt;%
+  gs_read(&quot;Reordered&quot;, verbose = FALSE)
+
+## Create gvis object
+gvis_brain_ordered &lt;- gvisSankey(brain_reordered,
+                                 from = &#39;sourceNode&#39;,
+                                 to = &#39;targetNode&#39;,
+                                 weight = &#39;Patients&#39;,
+                                 options = list(height = 400, width = 700,
+                                                sankey = &quot;{iterations: 0
+                                                          }&quot;))
+
+## Print gvis object - chart only, not full HTML
+print(gvis_brain_ordered, tag = &#39;chart&#39;)</code></pre>
+<!-- Sankey generated in R 3.4.3 by googleVis 0.6.2 package -->
+<!-- Sat Jan 20 15:45:34 2018 -->
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataSankeyID465b52a79303 () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+"Enrolled",
+"Eligible for followup",
+636
+],
+[
+"Enrolled",
+"Withdrew in hospital",
+39
+],
+[
+"Enrolled",
+"Died in hospital",
+151
+],
+[
+"Eligible for followup",
+"Evaluated, 3m",
+448
+],
+[
+"Eligible for followup",
+"Lost to followup, 3m",
+47
+],
+[
+"Eligible for followup",
+"Withdrew, 3m",
+40
+],
+[
+"Eligible for followup",
+"Died, 3m",
+101
+],
+[
+"Withdrew in hospital",
+"Withdrew, 3m",
+34
+],
+[
+"Died in hospital",
+"Died, 3m",
+151
+],
+[
+"Evaluated, 3m",
+"Evaluated, 12m",
+382
+],
+[
+"Evaluated, 3m",
+"Lost to followup, 12m",
+12
+],
+[
+"Evaluated, 3m",
+"Withdrew, 12m",
+14
+],
+[
+"Evaluated, 3m",
+"Died, 12m",
+59
+],
+[
+"Lost to followup, 3m",
+"Evaluated, 12m",
+19
+],
+[
+"Lost to followup, 3m",
+"Lost to followup, 12m",
+28
+],
+[
+"Withdrew, 3m",
+"Withdrew, 12m",
+74
+],
+[
+"Died, 3m",
+"Died, 12m",
+252
+] 
+];
+data.addColumn('string','sourceNode');
+data.addColumn('string','targetNode');
+data.addColumn('number','Patients');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartSankeyID465b52a79303() {
+var data = gvisDataSankeyID465b52a79303();
+var options = {};
+options["width"] = 700;
+options["height"] = 400;
+options["sankey"] = {iterations: 0
+                                                          };
+
+    var chart = new google.visualization.Sankey(
+    document.getElementById('SankeyID465b52a79303')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "sankey";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartSankeyID465b52a79303);
+})();
+function displayChartSankeyID465b52a79303() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+<!-- jsChart -->
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartSankeyID465b52a79303"></script>
+<!-- divChart -->
+<div id="SankeyID465b52a79303" style="width: 700; height: 400;">
+
+</div>
+</div>
+</div>
+<div id="informative-tooltips" class="section level4">
+<h4>Informative Tooltips</h4>
+<p>By default, the tooltips for each edge show the source and target nodes along with the weight (here, the number of patients). But wouldn’t it be good to know, for example, what proportion of patients each weight represents out of the source and target nodes? To do that, we just need to include the text we want as a column in our data frame, with a name that ends in <code>.tooltip</code>. We can include HTML formatting in these tooltips; we’ll need to specify this in our <code>options</code> list (see below). For a longer intro, see the <a href="https://cran.r-project.org/web/packages/googleVis/vignettes/Using_Roles_via_googleVis.html">Roles googleVis vignette</a>.</p>
+<pre class="r"><code>## Get total number of patients at each source, target node at each time point
+source_ns &lt;- brain_reordered %&gt;%
+  group_by(sourceNode) %&gt;%
+  summarise(sourceN = sum(Patients)) %&gt;%
+  ungroup()
+
+target_ns &lt;- brain_reordered %&gt;%
+  group_by(targetNode) %&gt;%
+  summarise(targetN = sum(Patients)) %&gt;%
+  ungroup()
+
+## Add source/target Ns and create tooltip text specific to source/target nodes
+brain_reordered &lt;- brain_reordered %&gt;%
+  left_join(source_ns, by = &#39;sourceNode&#39;) %&gt;%
+  left_join(target_ns, by = &#39;targetNode&#39;) %&gt;%
+  mutate(
+    to_from = paste0(&#39;&lt;b&gt;&#39;, sourceNode, &#39; -&gt; &#39;, targetNode, &#39;:&lt;/b&gt;&#39;),
+    brain.tooltip = ## Target nodes where 100% of patients came from same source:
+      ## N + % (n) of source
+      ifelse(targetNode %in% c(&#39;Eligible for followup&#39;,
+                               &#39;Withdrew in hospital&#39;,
+                               &#39;Died in hospital&#39;,
+                               &#39;Evaluated, 3m&#39;,
+                               &#39;Lost to followup, 3m&#39;),
+             paste0(to_from, &#39;&lt;br&gt;N = &#39;, Patients, &#39;&lt;br&gt;&#39;,
+                    round((Patients / sourceN) * 100), &#39;% of &#39;,
+                    sourceN, &#39; &#39;, tolower(sourceNode)),
+             ## Source nodes where 100% of patients go to same target:
+             ## N + % (n) of target
+             ifelse(sourceNode %in% c(&#39;Withdrew in hospital&#39;,
+                                      &#39;Died in hospital&#39;,
+                                      &#39;Died, 3m&#39;,
+                                      &#39;Withdrew, 3m&#39;),
+                    paste0(to_from, &#39;&lt;br&gt;N = &#39;, Patients, &#39;&lt;br&gt;&#39;,
+                           round((Patients / targetN) * 100), &#39;% of &#39;,
+                           targetN, &#39; &#39;, tolower(targetNode)),
+                    ## Otherwise, add N, % (n) of source, and % (n) of target
+                    paste0(to_from, &#39;&lt;br&gt;N = &#39;, Patients,
+                           &#39;&lt;br&gt;&#39;, round((Patients / sourceN) * 100),
+                           &#39;% of &#39;, sourceN, &#39; &#39;, tolower(sourceNode),
+                           &#39;&lt;br&gt;&#39;, round((Patients / targetN) * 100),
+                           &#39;% of &#39;, targetN, &#39; &#39;, tolower(targetNode))))
+  )</code></pre>
+</div>
+<div id="beautiful-colors" class="section level4">
+<h4>Beautiful Colors</h4>
+<p>You know what would make this plot even better? Color! Specifically, what if all the nodes and edges for patients who died were the same color, and all the nodes for withdrawals were the same color, and…?</p>
+<p>Unlike other Sankey plot packages, unfortunately, you can’t quickly specify that “nodes named this should be blue” - here, it’s a manual process, and it’s not always obvious what order the colors should be specified in to match each node. My technique: Include a manual color specification of the same color for every node, then one by one turn each one bright yellow or something obvious, figure out what color it <em>should</em> be, change that one, and iterate till you’re done. Not ideal, but doable.</p>
+<p>We specify colors using the <code>node</code> piece of the <code>sankey</code> element of <code>options</code>. We’ll also use these options to tweak the labels and use color gradients for the edges rather than the default gray.</p>
+</div>
+<div id="final-progression-plot" class="section level4">
+<h4>Final Progression Plot</h4>
+<pre class="r"><code>## #B71C1C = died
+## #FF6F00 = withdrew
+## #FFECB3 = lost to followup
+## #1B5E20 = eligible/evaluated
+## #1A237E = enrolled
+
+## Create gvis object
+gvis_brain_final &lt;-
+  gvisSankey(
+    brain_reordered,
+    from = &#39;sourceNode&#39;,
+    to = &#39;targetNode&#39;,
+    weight = &#39;Patients&#39;,
+    options = list(height = 400, width = 705,
+                   tooltip = &quot;{isHtml:&#39;True&#39;}&quot;,
+                   sankey = &quot;{link: { colorMode: &#39;gradient&#39; },
+                              node: { colors: [&#39;#1A237E&#39;,
+                                               &#39;#1B5E20&#39;,
+                                               &#39;#FF6F00&#39;,
+                                               &#39;#B71C1C&#39;,
+                                               &#39;#1B5E20&#39;,
+                                               &#39;#FFECB3&#39;,
+                                               &#39;#FF6F00&#39;,
+                                               &#39;#B71C1C&#39;,
+                                               &#39;#1B5E20&#39;,
+                                               &#39;#FFECB3&#39;,
+                                               &#39;#FF6F00&#39;,
+                                               &#39;#B71C1C&#39;],
+                                      label: { fontSize: 14, bold: true }
+                                    },
+                              iterations: 0
+                              }&quot;)
+  )
+
+## Print gvis object - chart only, not full HTML
+print(gvis_brain_final, tag = &#39;chart&#39;)</code></pre>
+<!-- Sankey generated in R 3.4.3 by googleVis 0.6.2 package -->
+<!-- Sat Jan 20 15:45:34 2018 -->
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataSankeyID465b1c6aeaff () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+"Enrolled",
+"Eligible for followup",
+636,
+826,
+636,
+"<b>Enrolled -> Eligible for followup:</b>",
+"<b>Enrolled -> Eligible for followup:</b><br>N = 636<br>77% of 826 enrolled"
+],
+[
+"Enrolled",
+"Withdrew in hospital",
+39,
+826,
+39,
+"<b>Enrolled -> Withdrew in hospital:</b>",
+"<b>Enrolled -> Withdrew in hospital:</b><br>N = 39<br>5% of 826 enrolled"
+],
+[
+"Enrolled",
+"Died in hospital",
+151,
+826,
+151,
+"<b>Enrolled -> Died in hospital:</b>",
+"<b>Enrolled -> Died in hospital:</b><br>N = 151<br>18% of 826 enrolled"
+],
+[
+"Eligible for followup",
+"Evaluated, 3m",
+448,
+636,
+448,
+"<b>Eligible for followup -> Evaluated, 3m:</b>",
+"<b>Eligible for followup -> Evaluated, 3m:</b><br>N = 448<br>70% of 636 eligible for followup"
+],
+[
+"Eligible for followup",
+"Lost to followup, 3m",
+47,
+636,
+47,
+"<b>Eligible for followup -> Lost to followup, 3m:</b>",
+"<b>Eligible for followup -> Lost to followup, 3m:</b><br>N = 47<br>7% of 636 eligible for followup"
+],
+[
+"Eligible for followup",
+"Withdrew, 3m",
+40,
+636,
+74,
+"<b>Eligible for followup -> Withdrew, 3m:</b>",
+"<b>Eligible for followup -> Withdrew, 3m:</b><br>N = 40<br>6% of 636 eligible for followup<br>54% of 74 withdrew, 3m"
+],
+[
+"Eligible for followup",
+"Died, 3m",
+101,
+636,
+252,
+"<b>Eligible for followup -> Died, 3m:</b>",
+"<b>Eligible for followup -> Died, 3m:</b><br>N = 101<br>16% of 636 eligible for followup<br>40% of 252 died, 3m"
+],
+[
+"Withdrew in hospital",
+"Withdrew, 3m",
+34,
+34,
+74,
+"<b>Withdrew in hospital -> Withdrew, 3m:</b>",
+"<b>Withdrew in hospital -> Withdrew, 3m:</b><br>N = 34<br>46% of 74 withdrew, 3m"
+],
+[
+"Died in hospital",
+"Died, 3m",
+151,
+151,
+252,
+"<b>Died in hospital -> Died, 3m:</b>",
+"<b>Died in hospital -> Died, 3m:</b><br>N = 151<br>60% of 252 died, 3m"
+],
+[
+"Evaluated, 3m",
+"Evaluated, 12m",
+382,
+467,
+401,
+"<b>Evaluated, 3m -> Evaluated, 12m:</b>",
+"<b>Evaluated, 3m -> Evaluated, 12m:</b><br>N = 382<br>82% of 467 evaluated, 3m<br>95% of 401 evaluated, 12m"
+],
+[
+"Evaluated, 3m",
+"Lost to followup, 12m",
+12,
+467,
+40,
+"<b>Evaluated, 3m -> Lost to followup, 12m:</b>",
+"<b>Evaluated, 3m -> Lost to followup, 12m:</b><br>N = 12<br>3% of 467 evaluated, 3m<br>30% of 40 lost to followup, 12m"
+],
+[
+"Evaluated, 3m",
+"Withdrew, 12m",
+14,
+467,
+88,
+"<b>Evaluated, 3m -> Withdrew, 12m:</b>",
+"<b>Evaluated, 3m -> Withdrew, 12m:</b><br>N = 14<br>3% of 467 evaluated, 3m<br>16% of 88 withdrew, 12m"
+],
+[
+"Evaluated, 3m",
+"Died, 12m",
+59,
+467,
+311,
+"<b>Evaluated, 3m -> Died, 12m:</b>",
+"<b>Evaluated, 3m -> Died, 12m:</b><br>N = 59<br>13% of 467 evaluated, 3m<br>19% of 311 died, 12m"
+],
+[
+"Lost to followup, 3m",
+"Evaluated, 12m",
+19,
+47,
+401,
+"<b>Lost to followup, 3m -> Evaluated, 12m:</b>",
+"<b>Lost to followup, 3m -> Evaluated, 12m:</b><br>N = 19<br>40% of 47 lost to followup, 3m<br>5% of 401 evaluated, 12m"
+],
+[
+"Lost to followup, 3m",
+"Lost to followup, 12m",
+28,
+47,
+40,
+"<b>Lost to followup, 3m -> Lost to followup, 12m:</b>",
+"<b>Lost to followup, 3m -> Lost to followup, 12m:</b><br>N = 28<br>60% of 47 lost to followup, 3m<br>70% of 40 lost to followup, 12m"
+],
+[
+"Withdrew, 3m",
+"Withdrew, 12m",
+74,
+74,
+88,
+"<b>Withdrew, 3m -> Withdrew, 12m:</b>",
+"<b>Withdrew, 3m -> Withdrew, 12m:</b><br>N = 74<br>84% of 88 withdrew, 12m"
+],
+[
+"Died, 3m",
+"Died, 12m",
+252,
+252,
+311,
+"<b>Died, 3m -> Died, 12m:</b>",
+"<b>Died, 3m -> Died, 12m:</b><br>N = 252<br>81% of 311 died, 12m"
+] 
+];
+data.addColumn('string','sourceNode');
+data.addColumn('string','targetNode');
+data.addColumn('number','Patients');
+data.addColumn('number','sourceN');
+data.addColumn('number','targetN');
+data.addColumn('string','to_from');
+data.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartSankeyID465b1c6aeaff() {
+var data = gvisDataSankeyID465b1c6aeaff();
+var options = {};
+options["width"] = 705;
+options["height"] = 400;
+options["tooltip"] = {isHtml:'True'};
+options["sankey"] = {link: { colorMode: 'gradient' },
+                              node: { colors: ['#1A237E',
+                                               '#1B5E20',
+                                               '#FF6F00',
+                                               '#B71C1C',
+                                               '#1B5E20',
+                                               '#FFECB3',
+                                               '#FF6F00',
+                                               '#B71C1C',
+                                               '#1B5E20',
+                                               '#FFECB3',
+                                               '#FF6F00',
+                                               '#B71C1C'],
+                                      label: { fontSize: 14, bold: true }
+                                    },
+                              iterations: 0
+                              };
+
+    var chart = new google.visualization.Sankey(
+    document.getElementById('SankeyID465b1c6aeaff')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "sankey";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartSankeyID465b1c6aeaff);
+})();
+function displayChartSankeyID465b1c6aeaff() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+<!-- jsChart -->
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartSankeyID465b1c6aeaff"></script>
+<!-- divChart -->
+<div id="SankeyID465b1c6aeaff" style="width: 705; height: 400;">
+
+</div>
+<p>Pretty, right?</p>
+</div>
+</div>
+<div id="pros-cons-and-other-options" class="section level3">
+<h3>Pros, Cons and Other Options</h3>
+<div id="pros" class="section level4">
+<h4>Pros</h4>
+<ul>
+<li>Even the defaults look good; the finished product looks really polished without too much effort.</li>
+<li>Interactivity can be quite helpful depending on your context.</li>
+<li>Plots are largely customizable - it’s easy to generate informative tooltips, and easy-to-doable to do other custom configurations.</li>
+<li>HTML format is straightforward to include in RMarkdown documents/notebooks. googleVis objects can also be included in <a href="https://shiny.rstudio.com/gallery/google-charts.html">Shiny apps</a>.</li>
+</ul>
+</div>
+<div id="cons" class="section level4">
+<h4>Cons</h4>
+<ul>
+<li>Plots can’t be opened outside a web browser. No saving to a PDF for manuscript submission.</li>
+<li>Unlike other Sankey plot packages, we can’t specify X/Y placement. (For example, in the longitudinal study above, it might have been nice to have the horizontal distances better represent the time between followup points in our study; to my knowledge, that isn’t possible.)</li>
+<li>Other packages also have easier ways to specify colors and node labels.</li>
+</ul>
+<p>
+<a href = "http://www.gilmoregirls.org/eguide/episode317.html"><img src = "/images/gilmore_procon.jpg" style="width:346px;height:202px" alt = "Lorelai and Rory Gilmore making a pro/con list""></a>
+</p>
+</div>
+<div id="other-packages-to-check-out" class="section level4">
+<h4>Other Packages to Check Out</h4>
+<p>I looked at both the <a href="https://cran.r-project.org/web/packages/riverplot/index.html">riverplot</a> (<a href="https://logfc.wordpress.com/2014/02/27/riverplot/">author blog post</a>) and <a href="https://cran.r-project.org/web/packages/sankey/index.html">sankey</a> (<a href="https://github.com/mangothecat/sankey">Github</a>) packages during this process. <a href="http://timelyportfolio.github.io/rCharts_d3_sankey/example_build_network_sankey.html">This</a> is also a nice post on using igraph and rcharts to create a Sankey plot. Depending on what you’re after, one of these might work for you.</p>
+</div>
+</div>
+<div id="session-details" class="section level3">
+<h3>Session Details</h3>
+<p>My R setup at the time this post was written is detailed below.</p>
+<p><details></p>
+<pre class="r"><code>devtools::session_info()</code></pre>
+<pre><code>##  setting  value                       
+##  version  R version 3.4.3 (2017-11-30)
+##  system   x86_64, darwin15.6.0        
+##  ui       X11                         
+##  language (EN)                        
+##  collate  en_US.UTF-8                 
+##  tz       America/Chicago             
+##  date     2018-01-20                  
+## 
+##  package      * version    date       source                          
+##  assertthat     0.2.0      2017-04-11 CRAN (R 3.4.0)                  
+##  backports      1.1.2      2017-12-13 cran (@1.1.2)                   
+##  base         * 3.4.3      2017-12-07 local                           
+##  bindr          0.1        2016-11-13 CRAN (R 3.4.0)                  
+##  bindrcpp     * 0.2        2017-06-17 CRAN (R 3.4.0)                  
+##  blogdown       0.4        2017-12-12 CRAN (R 3.4.3)                  
+##  bookdown       0.5        2017-08-20 CRAN (R 3.4.1)                  
+##  broom          0.4.2      2017-02-13 CRAN (R 3.4.0)                  
+##  cellranger     1.1.0      2016-07-27 CRAN (R 3.4.0)                  
+##  cli            1.0.0      2017-11-05 CRAN (R 3.4.2)                  
+##  codetools      0.2-15     2016-10-05 CRAN (R 3.4.3)                  
+##  colorspace     1.3-2      2016-12-14 CRAN (R 3.4.0)                  
+##  compiler       3.4.3      2017-12-07 local                           
+##  crayon         1.3.4      2017-09-16 CRAN (R 3.4.1)                  
+##  curl           3.1        2017-12-12 cran (@3.1)                     
+##  datasets     * 3.4.3      2017-12-07 local                           
+##  devtools       1.13.4     2017-11-09 CRAN (R 3.4.2)                  
+##  digest         0.6.14     2018-01-14 cran (@0.6.14)                  
+##  dplyr        * 0.7.4      2017-09-28 CRAN (R 3.4.2)                  
+##  evaluate       0.10.1     2017-06-24 CRAN (R 3.4.1)                  
+##  forcats      * 0.2.0      2017-01-23 CRAN (R 3.4.0)                  
+##  foreign        0.8-69     2017-06-22 CRAN (R 3.4.3)                  
+##  ggplot2      * 2.2.1      2016-12-30 CRAN (R 3.4.0)                  
+##  glue           1.2.0      2017-10-29 CRAN (R 3.4.2)                  
+##  googlesheets * 0.2.2      2017-05-07 CRAN (R 3.4.0)                  
+##  googleVis    * 0.6.2      2017-01-01 CRAN (R 3.4.0)                  
+##  graphics     * 3.4.3      2017-12-07 local                           
+##  grDevices    * 3.4.3      2017-12-07 local                           
+##  grid           3.4.3      2017-12-07 local                           
+##  gtable         0.2.0      2016-02-26 CRAN (R 3.4.0)                  
+##  haven          1.1.0      2017-07-09 CRAN (R 3.4.1)                  
+##  hms            0.3        2016-11-22 CRAN (R 3.4.0)                  
+##  htmltools      0.3.6      2017-04-28 CRAN (R 3.4.0)                  
+##  httr           1.3.1      2017-08-20 CRAN (R 3.4.1)                  
+##  jsonlite       1.5        2017-06-01 CRAN (R 3.4.0)                  
+##  knitr          1.18       2017-12-27 cran (@1.18)                    
+##  lattice        0.20-35    2017-03-25 CRAN (R 3.4.3)                  
+##  lazyeval       0.2.1      2017-10-29 CRAN (R 3.4.2)                  
+##  lubridate      1.7.1      2017-11-03 CRAN (R 3.4.2)                  
+##  magrittr       1.5        2014-11-22 CRAN (R 3.4.0)                  
+##  memoise        1.1.0      2017-04-21 CRAN (R 3.4.0)                  
+##  methods      * 3.4.3      2017-12-07 local                           
+##  mnormt         1.5-5      2016-10-15 CRAN (R 3.4.0)                  
+##  modelr         0.1.1      2017-07-24 CRAN (R 3.4.1)                  
+##  munsell        0.4.3      2016-02-13 CRAN (R 3.4.0)                  
+##  nlme           3.1-131    2017-02-06 CRAN (R 3.4.3)                  
+##  openssl        0.9.8      2017-11-03 CRAN (R 3.4.2)                  
+##  parallel       3.4.3      2017-12-07 local                           
+##  pillar         1.0.1      2017-11-27 CRAN (R 3.4.3)                  
+##  pkgconfig      2.0.1      2017-03-21 CRAN (R 3.4.0)                  
+##  plyr           1.8.4      2016-06-08 CRAN (R 3.4.0)                  
+##  psych          1.7.8      2017-09-09 CRAN (R 3.4.2)                  
+##  purrr        * 0.2.4      2017-10-18 CRAN (R 3.4.2)                  
+##  R6             2.2.2      2017-06-17 CRAN (R 3.4.0)                  
+##  Rcpp           0.12.14    2017-11-23 cran (@0.12.14)                 
+##  readr        * 1.1.1      2017-05-16 CRAN (R 3.4.0)                  
+##  readxl       * 1.0.0      2017-04-18 CRAN (R 3.4.0)                  
+##  reshape2       1.4.3      2017-12-11 cran (@1.4.3)                   
+##  rlang          0.1.6      2017-12-21 CRAN (R 3.4.3)                  
+##  rmarkdown      1.8        2017-11-17 cran (@1.8)                     
+##  rprojroot      1.3-2      2018-01-03 cran (@1.3-2)                   
+##  rstudioapi     0.7        2017-09-07 CRAN (R 3.4.1)                  
+##  rvest          0.3.2      2016-06-17 CRAN (R 3.4.0)                  
+##  scales         0.5.0.9000 2018-01-11 Github (hadley/scales@d767915)  
+##  stats        * 3.4.3      2017-12-07 local                           
+##  stringi        1.1.5      2017-04-07 CRAN (R 3.4.0)                  
+##  stringr      * 1.2.0      2017-02-18 CRAN (R 3.4.0)                  
+##  tibble       * 1.4.1      2017-12-25 CRAN (R 3.4.2)                  
+##  tidyr        * 0.7.2      2017-10-16 CRAN (R 3.4.2)                  
+##  tidyselect     0.2.3      2017-11-06 CRAN (R 3.4.2)                  
+##  tidyverse    * 1.2.1      2017-11-14 CRAN (R 3.4.2)                  
+##  tools          3.4.3      2017-12-07 local                           
+##  utf8           1.1.3      2018-01-03 CRAN (R 3.4.2)                  
+##  utils        * 3.4.3      2017-12-07 local                           
+##  withr          2.1.1.9000 2018-01-11 Github (jimhester/withr@df18523)
+##  xml2           1.1.1      2017-01-24 CRAN (R 3.4.0)                  
+##  yaml           2.1.16     2017-12-12 cran (@2.1.16)</code></pre>
+<p></details></p>
+</div>
