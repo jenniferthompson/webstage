@@ -4,6 +4,10 @@ author: Jennifer Thompson
 date: '2017-01-27'
 featured_image: '/images/sankey_smithsonian.jpg'
 slug: sankey-googlevis
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 3
 categories:
   - R
   - visualization
@@ -16,6 +20,16 @@ tags:
 ---
 
 
+<div id="TOC">
+<ul>
+<li><a href="#motivation">Motivation</a></li>
+<li><a href="#whats-google-chartsgooglevis">What’s Google Charts/googleVis?</a></li>
+<li><a href="#example-1-us-immigration-data-2015">Example 1: US Immigration Data, 2015</a></li>
+<li><a href="#example-2-longitudinal-study-progression">Example 2: Longitudinal Study Progression</a></li>
+<li><a href="#pros-cons-and-other-options">Pros, Cons and Other Options</a></li>
+<li><a href="#session-details">Session Details</a></li>
+</ul>
+</div>
 
 <div id="photo-american-political-parties-over-time-taken-at-the-national-museum-of-american-history-august-2017" class="section level5">
 <h5>Photo: American political parties over time, taken at the National Museum of American History, August 2017</h5>
@@ -130,12 +144,12 @@ gvis_immigration &lt;- gvisSankey(sankey_immigration,
 ## Print gvis object - chart only, not full HTML
 print(gvis_immigration, tag = &#39;chart&#39;)</code></pre>
 <!-- Sankey generated in R 3.4.3 by googleVis 0.6.2 package -->
-<!-- Sat Jan 20 15:45:31 2018 -->
+<!-- Sat Jan 20 17:46:48 2018 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataSankeyID465b9b2c () {
+function gvisDataSankeyID7ae77d32da25 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -323,14 +337,14 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartSankeyID465b9b2c() {
-var data = gvisDataSankeyID465b9b2c();
+function drawChartSankeyID7ae77d32da25() {
+var data = gvisDataSankeyID7ae77d32da25();
 var options = {};
 options["width"] = 400;
 options["height"] = 400;
 
     var chart = new google.visualization.Sankey(
-    document.getElementById('SankeyID465b9b2c')
+    document.getElementById('SankeyID7ae77d32da25')
     );
     chart.draw(data,options);
     
@@ -354,9 +368,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartSankeyID465b9b2c);
+callbacks.push(drawChartSankeyID7ae77d32da25);
 })();
-function displayChartSankeyID465b9b2c() {
+function displayChartSankeyID7ae77d32da25() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -379,9 +393,9 @@ callbacks.shift()();
 // jsFooter
 </script>
 <!-- jsChart -->
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartSankeyID465b9b2c"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartSankeyID7ae77d32da25"></script>
 <!-- divChart -->
-<div id="SankeyID465b9b2c" style="width: 400; height: 400;">
+<div id="SankeyID7ae77d32da25" style="width: 400; height: 400;">
 
 </div>
 <p>We can quickly see that most green card recipients in 2015 came from either North America or Asia, and the majority of them had one of the two kinds of family preference visas. There were about as many new permanent residents in 2015 who entered the US as refugees/asylees as entered with employment visas.</p>
@@ -408,12 +422,12 @@ gvis_brain_defaults &lt;- gvisSankey(brain_original,
 ## Print gvis object - chart only, not full HTML
 print(gvis_brain_defaults, tag = &#39;chart&#39;)</code></pre>
 <!-- Sankey generated in R 3.4.3 by googleVis 0.6.2 package -->
-<!-- Sat Jan 20 15:45:34 2018 -->
+<!-- Sat Jan 20 17:46:51 2018 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataSankeyID465b55398d8b () {
+function gvisDataSankeyID7ae779b890bd () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -511,14 +525,14 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartSankeyID465b55398d8b() {
-var data = gvisDataSankeyID465b55398d8b();
+function drawChartSankeyID7ae779b890bd() {
+var data = gvisDataSankeyID7ae779b890bd();
 var options = {};
 options["width"] = 400;
 options["height"] = 400;
 
     var chart = new google.visualization.Sankey(
-    document.getElementById('SankeyID465b55398d8b')
+    document.getElementById('SankeyID7ae779b890bd')
     );
     chart.draw(data,options);
     
@@ -542,9 +556,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartSankeyID465b55398d8b);
+callbacks.push(drawChartSankeyID7ae779b890bd);
 })();
-function displayChartSankeyID465b55398d8b() {
+function displayChartSankeyID7ae779b890bd() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -567,9 +581,9 @@ callbacks.shift()();
 // jsFooter
 </script>
 <!-- jsChart -->
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartSankeyID465b55398d8b"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartSankeyID7ae779b890bd"></script>
 <!-- divChart -->
-<div id="SankeyID465b55398d8b" style="width: 400; height: 400;">
+<div id="SankeyID7ae779b890bd" style="width: 400; height: 400;">
 
 </div>
 <p>This is somewhat helpful, but not as helpful as it could be. Can we change the vertical order of the nodes? Could the nodes of the same type - all the deaths, for example - be the same color all the way through the study so they’re easier to track? Could the <a href="https://en.wikipedia.org/wiki/Tooltip">tooltips</a> be more informative? The answer is, of course, yes!</p>
@@ -598,12 +612,12 @@ gvis_brain_ordered &lt;- gvisSankey(brain_reordered,
 ## Print gvis object - chart only, not full HTML
 print(gvis_brain_ordered, tag = &#39;chart&#39;)</code></pre>
 <!-- Sankey generated in R 3.4.3 by googleVis 0.6.2 package -->
-<!-- Sat Jan 20 15:45:34 2018 -->
+<!-- Sat Jan 20 17:46:51 2018 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataSankeyID465b52a79303 () {
+function gvisDataSankeyID7ae7458bdea3 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -701,8 +715,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartSankeyID465b52a79303() {
-var data = gvisDataSankeyID465b52a79303();
+function drawChartSankeyID7ae7458bdea3() {
+var data = gvisDataSankeyID7ae7458bdea3();
 var options = {};
 options["width"] = 700;
 options["height"] = 400;
@@ -710,7 +724,7 @@ options["sankey"] = {iterations: 0
                                                           };
 
     var chart = new google.visualization.Sankey(
-    document.getElementById('SankeyID465b52a79303')
+    document.getElementById('SankeyID7ae7458bdea3')
     );
     chart.draw(data,options);
     
@@ -734,9 +748,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartSankeyID465b52a79303);
+callbacks.push(drawChartSankeyID7ae7458bdea3);
 })();
-function displayChartSankeyID465b52a79303() {
+function displayChartSankeyID7ae7458bdea3() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -759,9 +773,9 @@ callbacks.shift()();
 // jsFooter
 </script>
 <!-- jsChart -->
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartSankeyID465b52a79303"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartSankeyID7ae7458bdea3"></script>
 <!-- divChart -->
-<div id="SankeyID465b52a79303" style="width: 700; height: 400;">
+<div id="SankeyID7ae7458bdea3" style="width: 700; height: 400;">
 
 </div>
 </div>
@@ -858,12 +872,12 @@ gvis_brain_final &lt;-
 ## Print gvis object - chart only, not full HTML
 print(gvis_brain_final, tag = &#39;chart&#39;)</code></pre>
 <!-- Sankey generated in R 3.4.3 by googleVis 0.6.2 package -->
-<!-- Sat Jan 20 15:45:34 2018 -->
+<!-- Sat Jan 20 17:46:52 2018 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataSankeyID465b1c6aeaff () {
+function gvisDataSankeyID7ae76836ef07 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -1033,8 +1047,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartSankeyID465b1c6aeaff() {
-var data = gvisDataSankeyID465b1c6aeaff();
+function drawChartSankeyID7ae76836ef07() {
+var data = gvisDataSankeyID7ae76836ef07();
 var options = {};
 options["width"] = 705;
 options["height"] = 400;
@@ -1058,7 +1072,7 @@ options["sankey"] = {link: { colorMode: 'gradient' },
                               };
 
     var chart = new google.visualization.Sankey(
-    document.getElementById('SankeyID465b1c6aeaff')
+    document.getElementById('SankeyID7ae76836ef07')
     );
     chart.draw(data,options);
     
@@ -1082,9 +1096,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartSankeyID465b1c6aeaff);
+callbacks.push(drawChartSankeyID7ae76836ef07);
 })();
-function displayChartSankeyID465b1c6aeaff() {
+function displayChartSankeyID7ae76836ef07() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -1107,9 +1121,9 @@ callbacks.shift()();
 // jsFooter
 </script>
 <!-- jsChart -->
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartSankeyID465b1c6aeaff"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartSankeyID7ae76836ef07"></script>
 <!-- divChart -->
-<div id="SankeyID465b1c6aeaff" style="width: 705; height: 400;">
+<div id="SankeyID7ae76836ef07" style="width: 705; height: 400;">
 
 </div>
 <p>Pretty, right?</p>

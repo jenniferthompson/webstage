@@ -4,6 +4,10 @@ author: Jennifer Thompson
 date: '2017-01-27'
 featured_image: '/images/sankey_smithsonian.jpg'
 slug: sankey-googlevis
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 3
 categories:
   - R
   - visualization
