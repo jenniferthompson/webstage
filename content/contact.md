@@ -1,6 +1,7 @@
 ---
 title: Contact
-description: We'd love to hear from you
+description: I'd love to hear from you.
+featured_image: '/images/hoh_magic_sun.jpg'
 type: page
 menu:
   main: {}

@@ -1,7 +1,7 @@
 ---
 title: "Resources"
 description: "Presentations, tutorials, other writing"
-featured_image: '/images/hoh.jpg'
+featured_image: '/images/ganier_snow.jpg'
 ---
 
 # 2017
