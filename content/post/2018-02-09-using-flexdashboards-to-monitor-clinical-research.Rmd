@@ -1,0 +1,164 @@
+---
+title: Using Flexdashboards to Monitor Clinical Research
+author: Jennifer Thompson
+date: '2018-02-09'
+featured_image: '/images/alfonsoxii.jpg'
+slug: flexdashboards-monitoring
+output: blogdown::html_page
+categories:
+  - flexdashboard
+  - visualization
+  - biostatistics
+tags:
+  - flexdashboard
+  - R Markdown
+  - “interactive graphics"
+---
+
+As a biostatistician, much of my work involves prospective clinical research, where data collection can take months or years to complete. These types of studies rely on continuous effort from multidisciplinary teams, each of which benefits from monitoring key study components throughout data collection. Some examples might include...
+
+- **Rates of enrollment and reasons for patient exclusion**: We need to make sure our study reflects the population we intended to study, and that we can complete it with the time and funds we have available.
+- **Open-label medication use**: If our double-blind study is comparing a statin and placebo, but people in the placebo group are often prescribed statins outside of their study drug dose, our two groups aren't actually very different - which means we can't draw reliable conclusions about the *actual* difference between statin and placebo. So in these cases, it's important to monitor use of the study medications outside what is specified in the protocol.
+- **Key aspects of the study protocol**: In one current study, our primary exposure is the level of physical activity in the ICU, measured in part by accelerometers that patients wear on their wrists and ankles. We need to keep an eye on how often the accelerometers are removed to quickly address any barriers to wearing the devices and to make sure the data on our exposure is as reliable and complete as possible.
+- **Follow-up rates**: In studies with long-term outcomes, finding patients and assessing their outcomes can be a huge challenge (one at which [our neuropsychology team](http://www.icudelirium.org/group/ourteam.html) excels!). Monitoring rates of follow-up helps us know if we need to put new strategies in place to make sure we get to as many patients as we can, so that our study results more generalizable and less biased.
+
+In previous studies, our [critical care research organization](www.icudelirium.org) used weekly PDF reports created in `knitr`/LaTeX to monitor study progress; while helpful, their length and detail tend to bury our most important metrics amid numbers that we only need occasionally. For our [most recent study](https://clinicaltrials.gov/ct2/show/NCT03115840), I created a [flexdashboard](http://rmarkdown.rstudio.com/flexdashboard/) which summarizes our most important metrics of study progress in a way that
+
+- Gives us a quick, clear overview of what's happening;
+- Provides additional detail as needed via interactive graphics; and
+- Updates on every run by accessing our [database](https://projectredcap.org) API.
+
+The entire project can be found in [this Github repo](https://github.com/jenniferthompson/MOSAICProgress); it includes an `.Rmd` file for the actual dashboard which sources a `.R` script for data preparation.
+
+## Study Background
+
+The MOSAIC (Measuring OutcomeS of Activity in Intensive Care) study will evaluate the relationship between patients' activity levels during their ICU stay and their disability, physical function, and cognition up to a year after their critical illness. More information on the study can be found on [clinicaltrials.gov](https://clinicaltrials.gov/ct2/show/NCT03115840).
+
+We started data collection in March 2017, and will eventually enroll 312 patients from the Vanderbilt ICUs. As patient enrollment and follow-up continue, we want to monitor rates of screening, enrollment, and follow-up and to make sure that key study data is being collected while patients are in the hospital. Enter the flexdashboard!
+
+## Flexdashboard Primer for the Unfamiliar
+
+RMarkdown, saved with the `.Rmd` extension, allows us to interweave R code with Markdown text and create output in HTML, PDF, and other formats. flexdashboard output is a special type of HTML output from RMarkdown which emphasizes data visualizations. Use your `.Rmd` YAML to specify this output type and set a few options:
+
+```
+---
+title: "MOSAIC Study Progress"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    theme: cosmo
+    logo: favicon_48x48.png
+    favicon: favicon_48x48.png
+---
+```
+
+If you use RStudio, flexdashboards are also available as an RMarkdown template when you create a new file. RStudio's [flexdashboard page](http://rmarkdown.rstudio.com/flexdashboard/) has more!
+
+Flexdashboards can include interactive components using [Shiny](shiny.rstudio.com). That level of interactivity wouldn't add much value for our single-center study, and I wanted to be able to send a static file to our team (vs requiring an internet connection), so we stick to the simpler non-Shiny version. For multicenter studies, I think using Shiny or [trelliscopejs](https://hafen.github.io/trelliscopejs/) have a lot of potential for looking at overall numbers as well as individual site metrics.
+
+## Particularly Helpful Features
+
+Rather than repeat information you can find in the very helpful flexdashboard docs, I'll highlight some features and capabilities I've found particularly useful in the context of clinical research monitoring. *(Out of an [over]abundance of caution regarding protecting patient data, I'm not sharing the actual dashboard here.)*
+
+![*Screencap of MOSAIC dashboard*](flexdash_example.jpg)
+
+### Separate Pages for Separate Topics
+
+Most of our studies are divided into three phases: screening and enrollment; in-hospital data collection; and long-term follow-up. Having one flexdashboard page per phase helps us focus attention on the most relevant metrics for different team members in a way that lets them quickly get to what they need. It's easy to do using Markdown headers:
+
+```
+Screening & Enrollment
+=====================================
+
+In-Hospital
+=====================================
+
+Follow-Up
+=====================================
+
+Study & Technical Info
+=====================================
+
+```
+
+### Interactive Graphics
+
+There are quite a few ways to incorporate interactive graphics into a flexdashboard (see [`htmlwidgets`](http://www.htmlwidgets.org/) for one great list of options); thus far, I've mainly used [`plotly`](https://plotly-book.cpsievert.me/). Using `plotly` graphics instead of static figures has allowed us to focus on the big picture quickly while incorporating detailed information in tooltips. For example, we have 16 separate reasons for study exclusion, and want to track how these change over time. Using text to denote which line is which exclusion would be incredibly crowded, but with `plotly`, we can get rid of the legend and still have the information there when we need it. `plotly`'s zoom capabilities are also really helpful for investigating data points more closely.
+
+### Hierarchical Treemaps with the `treemap` and `highcharter` Packages
+
+Treemaps are a useful way for us to quickly get a sense of some piece of study information, then drill down for more detail as needed. For example, we've grouped our 16 exclusions into a few major categories. A quick look at our treemap gives us a great *broad* sense of why patients are being excluded. If we're curious about what *specific* medical reasons are excluding patients, for example, we can drill down and see those details.
+
+```{r treemap}
+## -- Shortened, simulated example of our exclusions treemap -------------------
+library(treemap)
+library(highcharter)
+
+exc_df <- data.frame(
+  Reason = c(
+    ">5 hospital days in last 30", "Cannot complete verbal assessments",
+    "BMI > 50", "Moribund", "Homeless", "Inability to live independently",
+    "Lives >150 miles away", "No surrogate within 72h", "Other",
+    "Refused consent", "Rapidly resolving organ failure",
+    "Severe neurologic injury", "Study with no co-enrollment",
+    "Substance abuse"
+  ),
+  n_reason = c(482, 21, 53, 43, 8, 125, 75, 40, 3, 62, 8, 51, 5, 69),
+  n_patients_exc = rep(1000, 14),
+  reason_type = c(
+    "Medical exclusions", "Patient characteristics",
+    "Patient characteristics", "Medical exclusions",
+    "Patient characteristics", "Patient characteristics", "Geography",
+    "Informed consent", "Other exclusions", "Informed consent",
+    "Medical exclusions", "Medical exclusions", "Other exclusions",
+    "Patient characteristics"
+  )
+)
+
+tm_exc <- treemap(
+  dtf = exc_df,
+  index = c("reason_type", "Reason"),
+  vSize = "n_reason",
+  type = "index",
+  title = "",
+  algorithm = "squarified",
+  palette = c("#E76A32", "#3BB547", "#0477BF", "#1A653E", "#D71A60"),
+    ## colors from our study logo
+  draw = FALSE
+)
+
+hc_tm_exc <- hctreemap(
+  tm_exc,
+  width = 500,
+  allowDrillToNode = TRUE,
+  layoutAlgorithm = "squarified",
+  levels = list(levelIsConstant = "false"),
+  dataLabels = list(style = list(color = "white",
+                                 textOutline = "0px contrast",
+                                 fontSize = "10px"))
+)
+
+hc_tm_exc
+
+```
+
+### Progress Indicators with `gauge`s
+
+Flexdashboard comes with several built-in widgets; one is the `gauge`, which we use to mark progress in study enrollment. It's a quick, informative way to see how far we've come in hitting our enrollment target.
+
+<img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:200px;height:123px" src="/images/flexdash_gauge.png"" alt = "gauge example"">
+
+### Warning Signs with `valueBox`es and Conditional Coloring
+
+flexdashboard's `valueBox` widget works well to warn us when something goes below a specified target. For example, the primary exposure in our study is level of activity in the ICU; one way we measure this is via accelerometers that the patients wear on their wrist and ankles (think an industrial FitBit). If those accelerometers are removed too often (maybe the patient is too irritated by them), our exposure data will be less reliable. So as one of our key metrics, we have a `valueBox` to monitor how many patients have their accelerometers permanently removed. If this gets too high, we try to address barriers to wearing them.
+
+<img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:300px;height:84px" src="/images/flexdash_valuebox.png"" alt = "valueBox example"">
+
+### Nice Tabular Printing
+
+Our current dashboard uses `knitr::kable` for one small table and `DT::datatable` for a larger one; both print nicely in this Markdown format, and for large tables, `DT` has tons of helpful functionality. If this study were a randomized clinical trial in which we needed to monitor open-label drug use, `DT` would be a great way to list all open-label doses in a searchable, paginated format - much better than the pages of Latex tables in our previous reports!
+
+## Dashboards != Communication
+
+Building this dashboard has been (and continues to be!) an iterative process, based on the needs of our various teams. **It is meant to facilitate communication, not to replace it.**  No matter how snazzy it looks, a dashboard isn't informative at all if the user doesn't have the background and knowledge they need to interpret it, or if it's not giving information that can lead to action. Our immediate goal with this dashboard is to alert us quickly to anything going on that might need discussion and either corrective action or positive reinforcement. This in turn helps us get to our ultimate goal: to produce the strongest research possible, advancing science and improving the experiences of critically ill patients and their loved ones.
