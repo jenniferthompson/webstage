@@ -163,13 +163,13 @@ hc_tm_exc
 
 ### Progress Indicators with `gauge`s
 
-<img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:200px;height:123px" src="/images/flexdash_gauge.png"" alt = "gauge example"">
+<img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:190px;height:123px" src="/images/flexdash_gauge.png"" alt = "gauge example"">
 
 Flexdashboard comes with several built-in widgets; one is the `gauge`, which we use to mark progress in study enrollment. It's a quick, informative way to see how far we've come in hitting our enrollment target.
 
 ### Warning Signs with `valueBox`es and Conditional Coloring
 
-<img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:200px;height:31px" src="/images/flexdash_valuebox.png"" alt = "valueBox example"">
+<img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:275px;height:95px" src="/images/flexdash_valuebox.png"" alt = "valueBox example"">
 
 flexdashboard's `valueBox` widget works well for either positive reinforcement or for warning us when something goes below a specified target. For example, the primary exposure in our study is level of activity in the ICU; one way we measure this is via accelerometers patients wear on their wrist and ankle (think an industrial FitBit). When our `valueBox` goes from green to orange, we know that we need to communicate with our in-hospital team to address barriers to wearing the devices.
 
