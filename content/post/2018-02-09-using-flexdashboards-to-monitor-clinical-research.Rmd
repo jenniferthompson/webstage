@@ -17,14 +17,14 @@ tags:
   - “interactive graphics"
 ---
 
-As a biostatistician, much of my work involves prospective clinical research, where data collection can take months or years to complete. These types of studies rely on continuous effort from multidisciplinary teams, each of which benefits from monitoring key study components throughout data collection. Some examples might include...
+Much of my work involves prospective clinical research, where data collection can take months or years to complete and relies on continuous effort from multidisciplinary teams. Throughout the study, we monitor progress in various ways, such as...
 
-- **Rates of enrollment and reasons for patient exclusion**: We need to make sure our study reflects the population we intended to study, and that we can complete it with the time and funds we have available.
-- **Open-label medication use**: If our double-blind study is comparing a statin and placebo, but people in the placebo group are often prescribed statins outside of their study drug dose, our two groups aren't actually very different - which means we can't draw reliable conclusions about the *actual* difference between statin and placebo. So in these cases, it's important to monitor use of the study medications outside what is specified in the protocol.
-- **Key aspects of the study protocol**: In one current study, our primary exposure is the level of physical activity in the ICU, measured in part by accelerometers that patients wear on their wrists and ankles. We need to keep an eye on how often the accelerometers are removed to quickly address any barriers to wearing the devices and to make sure the data on our exposure is as reliable and complete as possible.
-- **Follow-up rates**: In studies with long-term outcomes, finding patients and assessing their outcomes can be a huge challenge (one at which [our neuropsychology team](http://www.icudelirium.org/group/ourteam.html) excels!). Monitoring rates of follow-up helps us know if we need to put new strategies in place to make sure we get to as many patients as we can, so that our study results more generalizable and less biased.
+- **Rates of enrollment and reasons for patient exclusion**, to make sure our study pace is on target and the cohort reflects the population we intended to study
+- **Open-label medication use**, to make sure we can draw reliable conclusions about the *actual* difference between our treatments
+- **Key aspects of the study protocol**, such as making sure study devices are worn consistently
+- **Follow-up rates**, to alert us when we need new strategies to maintain contact with patients and their families over years of follow-up
 
-In previous studies, our [critical care research organization](www.icudelirium.org) used weekly PDF reports created in `knitr`/LaTeX to monitor study progress; while helpful, their length and detail tend to bury our most important metrics amid numbers that we only need occasionally. For our [most recent study](https://clinicaltrials.gov/ct2/show/NCT03115840), I created a [flexdashboard](http://rmarkdown.rstudio.com/flexdashboard/) which summarizes our most important metrics of study progress in a way that
+In previous studies, our [critical care research organization](www.icudelirium.org) used weekly PDF reports created in `knitr`/LaTeX to monitor study progress. While helpful, their length and detail tend to bury our most important metrics amid numbers that we only need occasionally. For our most recent study, I created a [flexdashboard](http://rmarkdown.rstudio.com/flexdashboard/) which summarizes our most important metrics of study progress in a way that
 
 - Gives us a quick, clear overview of what's happening;
 - Provides additional detail as needed via interactive graphics; and
@@ -40,7 +40,7 @@ We started data collection in March 2017, and will eventually enroll 312 patient
 
 ## Flexdashboard Primer for the Unfamiliar
 
-RMarkdown, saved with the `.Rmd` extension, allows us to interweave R code with Markdown text and create output in HTML, PDF, and other formats. flexdashboard output is a special type of HTML output from RMarkdown which emphasizes data visualizations. Use your `.Rmd` YAML to specify this output type and set a few options:
+RMarkdown, saved with the `.Rmd` extension, allows us to interweave R code with Markdown text and create output in HTML, PDF, and other formats. flexdashboards are a specific type of HTML output which emphasizes data visualizations. Use your `.Rmd` YAML to specify this output type and set a few options:
 
 ```
 ---
@@ -61,13 +61,13 @@ Flexdashboards can include interactive components using [Shiny](shiny.rstudio.co
 
 ## Particularly Helpful Features
 
-Rather than repeat information you can find in the very helpful flexdashboard docs, I'll highlight some features and capabilities I've found particularly useful in the context of clinical research monitoring. *(Out of an [over]abundance of caution regarding protecting patient data, I'm not sharing the actual dashboard here.)*
+Rather than repeat how-to information you can find in the very helpful flexdashboard docs, I'll highlight some features and capabilities I've found particularly useful in the context of clinical research monitoring. *(Out of an abundance of caution regarding protecting patient data, I'm not sharing the actual dashboard here.)*
 
 ![*Screencap of MOSAIC dashboard*](flexdash_example.jpg)
 
 ### Separate Pages for Separate Topics
 
-Most of our studies are divided into three phases: screening and enrollment; in-hospital data collection; and long-term follow-up. Having one flexdashboard page per phase helps us focus attention on the most relevant metrics for different team members in a way that lets them quickly get to what they need. It's easy to do using Markdown headers:
+Most of our studies are divided into three phases, each conducted by different teams within our group. Having one flexdashboard page per phase helps each team quickly focus attention on the most relevant metrics for their work. It's easy to do using Markdown headers:
 
 ```
 Screening & Enrollment
@@ -86,13 +86,17 @@ Study & Technical Info
 
 ### Interactive Graphics
 
-There are quite a few ways to incorporate interactive graphics into a flexdashboard (see [`htmlwidgets`](http://www.htmlwidgets.org/) for one great list of options); thus far, I've mainly used [`plotly`](https://plotly-book.cpsievert.me/). Using `plotly` graphics instead of static figures has allowed us to focus on the big picture quickly while incorporating detailed information in tooltips. For example, we have 16 separate reasons for study exclusion, and want to track how these change over time. Using text to denote which line is which exclusion would be incredibly crowded, but with `plotly`, we can get rid of the legend and still have the information there when we need it. `plotly`'s zoom capabilities are also really helpful for investigating data points more closely.
+There are quite a few ways to incorporate interactive graphics into a flexdashboard (see [`htmlwidgets`](http://www.htmlwidgets.org/) for one great list of options); thus far, I've mainly used [`plotly`](https://plotly-book.cpsievert.me/), which has allowed us to focus on the big picture quickly while incorporating detailed information in tooltips. For example, we have 17 separate reasons for study exclusion, and want to track how these change over time. Using text or legends to denote which line is which exclusion would take up valuable screen real estate; by including that information in tooltips instead, we can access that information only when we need it. `plotly`'s zoom capabilities are also really helpful for investigating data points more closely.
 
 ### Hierarchical Treemaps with the `treemap` and `highcharter` Packages
 
-Treemaps are a useful way for us to quickly get a sense of some piece of study information, then drill down for more detail as needed. For example, we've grouped our 16 exclusions into a few major categories. A quick look at our treemap gives us a great *broad* sense of why patients are being excluded. If we're curious about what *specific* medical reasons are excluding patients, for example, we can drill down and see those details.
+Treemaps are another useful way for us to quickly get an overview of some piece of study information, then drill down for more detail as needed. For example, we've grouped our 17 exclusions into a few major categories. A quick look at our treemap gives us a great *broad* sense of why patients are being excluded. If we're curious about what *specific* medical reasons are excluding patients, for example, we can drill down and see those details.
 
-```{r treemap, results = "hide"}
+#### Code for treemap
+
+<details>
+
+```{r treemap_prep}
 ## -- Shortened, simulated example of our exclusions treemap -------------------
 library(treemap)
 library(highcharter)
@@ -118,6 +122,9 @@ exc_df <- data.frame(
   )
 )
 
+```
+
+```{r treemap_draw}
 tm_exc <- treemap(
   dtf = exc_df,
   index = c("reason_type", "Reason"),
@@ -143,6 +150,8 @@ hc_tm_exc <- hctreemap(
 
 ```
 
+</details>
+
 ```{r print_treemap}
 hc_tm_exc
 
@@ -158,12 +167,12 @@ Flexdashboard comes with several built-in widgets; one is the `gauge`, which we 
 
 <img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:300px;height:84px" src="/images/flexdash_valuebox.png"" alt = "valueBox example"">
 
-flexdashboard's `valueBox` widget works well to warn us when something goes below a specified target. For example, the primary exposure in our study is level of activity in the ICU; one way we measure this is via accelerometers that the patients wear on their wrist and ankles (think an industrial FitBit). If those accelerometers are removed too often (maybe the patient is too irritated by them), our exposure data will be less reliable. So as one of our key metrics, we have a `valueBox` to monitor how many patients have their accelerometers permanently removed. If this gets too high, we try to address barriers to wearing them.
+flexdashboard's `valueBox` widget works well for either positive reinforcement or for warning us when something goes below a specified target. For example, the primary exposure in our study is level of activity in the ICU; one way we measure this is via accelerometers patients wear on their wrist and ankle (think an industrial FitBit). When our `valueBox` goes from green to orange, we know that we need to communicate with our in-hospital team to address barriers to wearing the devices.
 
 ### Nice Tabular Printing
 
-Our current dashboard uses `knitr::kable` for one small table and `DT::datatable` for a larger one; both print nicely in this Markdown format, and for large tables, `DT` has tons of helpful functionality. If this study were a randomized clinical trial in which we needed to monitor open-label drug use, `DT` would be a great way to list all open-label doses in a searchable, paginated format - much better than the pages of Latex tables in our previous reports!
+Our current dashboard uses `knitr::kable` for one small table and `DT::datatable` for a larger one. If this study were a randomized clinical trial in which we needed to monitor open-label drug use, `DT` would be a great way to list all open-label doses in a searchable, paginated format - much better than the pages of Latex tables in our previous reports!
 
 ## Dashboards != Communication
 
-Building this dashboard has been (and continues to be!) an iterative process, based on the needs of our various teams. **It is meant to facilitate communication, not to replace it.**  No matter how snazzy it looks, a dashboard isn't informative at all if the user doesn't have the background and knowledge they need to interpret it, or if it's not giving information that can lead to action. Our immediate goal with this dashboard is to alert us quickly to anything going on that might need discussion and either corrective action or positive reinforcement. This in turn helps us get to our ultimate goal: to produce the strongest research possible, advancing science and improving the experiences of critically ill patients and their loved ones.
+Building this dashboard has been (and continues to be!) an iterative process, based on the needs of our various teams. **It is meant to facilitate communication, not to replace it.**  No matter how snazzy it looks, a dashboard isn't informative at all if the user doesn't have the background and knowledge they need to interpret it, or if it's not giving information that can lead to action. Our immediate goal with this dashboard is to alert us quickly to anything going on that warrants either corrective action or positive reinforcement. This in turn helps us get to our ultimate goal: to produce the strongest research possible, advancing science and improving the experiences of critically ill patients and their loved ones.
