@@ -8,7 +8,7 @@ output:
   blogdown::html_page:
     fig_width: 6
     toc: true
-    toc_depth: 1
+    toc_depth: 2
 categories:
   - flexdashboard
   - visualization
@@ -40,6 +40,10 @@ The MOSAIC (Measuring OutcomeS of Activity in Intensive Care) study will evaluat
 
 We started data collection in March 2017, and will eventually enroll 312 patients from the Vanderbilt ICUs. As patient enrollment and follow-up continue, we want to monitor rates of screening, enrollment, and follow-up and to make sure that key study data is being collected while patients are in the hospital. Enter the flexdashboard!
 
+![Screencap of MOSAIC dashboard](/images/flexdash_example.png)
+
+<small>*Out of an abundance of caution for sharing patient information, I'm not sharing the actual dashboard here.*</small>
+
 ## Flexdashboard Primer for the Unfamiliar
 
 RMarkdown, saved with the `.Rmd` extension, allows us to interweave R code with Markdown text and create output in HTML, PDF, and other formats. flexdashboards are a specific type of HTML output which emphasizes data visualizations. Use your `.Rmd` YAML to specify this output type and set a few options:
@@ -63,9 +67,7 @@ Flexdashboards can include interactive components using [Shiny](shiny.rstudio.co
 
 ## Particularly Helpful Features
 
-Rather than repeat how-to information you can find in the very helpful flexdashboard docs, I'll highlight some features and capabilities I've found particularly useful in the context of clinical research monitoring. *(Out of an abundance of caution regarding protecting patient data, I'm not sharing the actual dashboard here.)*
-
-<img style="float:center; padding-left:10px; padding-bottom:10px;padding-top:10px" src="/images/flexdash_example.png"" alt = "MOSAIC dashboard screencap"">
+Rather than repeat how-to information you can find in the very helpful flexdashboard docs, I'll highlight some features and capabilities I've found particularly useful in the context of clinical research monitoring.
 
 ### Separate Pages for Separate Topics
 

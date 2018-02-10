@@ -8,7 +8,7 @@ output:
   blogdown::html_page:
     fig_width: 6
     toc: true
-    toc_depth: 1
+    toc_depth: 2
 categories:
   - flexdashboard
   - visualization
@@ -53,6 +53,14 @@ tags:
 <link href="/rmarkdown-libs/htmlwdgtgrid/htmlwdgtgrid.css" rel="stylesheet" />
 <script src="/rmarkdown-libs/highchart-binding/highchart.js"></script>
 
+<div id="TOC">
+<ul>
+<li><a href="#study-background">Study Background</a></li>
+<li><a href="#flexdashboard-primer-for-the-unfamiliar">Flexdashboard Primer for the Unfamiliar</a></li>
+<li><a href="#particularly-helpful-features">Particularly Helpful Features</a></li>
+<li><a href="#dashboards-communication">Dashboards != Communication</a></li>
+</ul>
+</div>
 
 <p>Much of my work involves prospective clinical research, where data collection can take months or years to complete and relies on continuous effort from multidisciplinary teams. Throughout the study, we monitor progress in various ways, such as…</p>
 <ul>
@@ -72,6 +80,11 @@ tags:
 <h2>Study Background</h2>
 <p>The MOSAIC (Measuring OutcomeS of Activity in Intensive Care) study will evaluate the relationship between patients’ activity levels during their ICU stay and their disability, physical function, and cognition up to a year after their critical illness. More information on the study can be found on <a href="https://clinicaltrials.gov/ct2/show/NCT03115840">clinicaltrials.gov</a>.</p>
 <p>We started data collection in March 2017, and will eventually enroll 312 patients from the Vanderbilt ICUs. As patient enrollment and follow-up continue, we want to monitor rates of screening, enrollment, and follow-up and to make sure that key study data is being collected while patients are in the hospital. Enter the flexdashboard!</p>
+<div class="figure">
+<img src="/images/flexdash_example.png" alt="Screencap of MOSAIC dashboard" />
+<p class="caption">Screencap of MOSAIC dashboard</p>
+</div>
+<p><small><em>Out of an abundance of caution for sharing patient information, I’m not sharing the actual dashboard here.</em></small></p>
 </div>
 <div id="flexdashboard-primer-for-the-unfamiliar" class="section level2">
 <h2>Flexdashboard Primer for the Unfamiliar</h2>
@@ -91,8 +104,7 @@ output:
 </div>
 <div id="particularly-helpful-features" class="section level2">
 <h2>Particularly Helpful Features</h2>
-<p>Rather than repeat how-to information you can find in the very helpful flexdashboard docs, I’ll highlight some features and capabilities I’ve found particularly useful in the context of clinical research monitoring. <em>(Out of an abundance of caution regarding protecting patient data, I’m not sharing the actual dashboard here.)</em></p>
-<p><img style="float:center; padding-left:10px; padding-bottom:10px;padding-top:10px" src="/images/flexdash_example.png"" alt = "MOSAIC dashboard screencap""></p>
+<p>Rather than repeat how-to information you can find in the very helpful flexdashboard docs, I’ll highlight some features and capabilities I’ve found particularly useful in the context of clinical research monitoring.</p>
 <div id="separate-pages-for-separate-topics" class="section level3">
 <h3>Separate Pages for Separate Topics</h3>
 <p>Most of our studies are divided into three phases, each conducted by different teams within our group. Having one flexdashboard page per phase helps each team quickly focus attention on the most relevant metrics for their work. It’s easy to do using Markdown headers:</p>
