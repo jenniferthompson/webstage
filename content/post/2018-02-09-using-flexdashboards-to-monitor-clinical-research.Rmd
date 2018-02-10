@@ -64,7 +64,7 @@ Flexdashboards can include interactive components using [Shiny](shiny.rstudio.co
 
 Rather than repeat how-to information you can find in the very helpful flexdashboard docs, I'll highlight some features and capabilities I've found particularly useful in the context of clinical research monitoring. *(Out of an abundance of caution regarding protecting patient data, I'm not sharing the actual dashboard here.)*
 
-![*Screencap of MOSAIC dashboard*](flexdash_example.png)
+![*Screencap of MOSAIC dashboard*](/images/flexdash_example.png)
 
 ### Separate Pages for Separate Topics
 
@@ -160,13 +160,13 @@ hc_tm_exc
 
 ### Progress Indicators with `gauge`s
 
-<img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:200px;height:31px" src="/images/flexdash_gauge.png"" alt = "gauge example"">
+<img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:200px;height:123px" src="/images/flexdash_gauge.png"" alt = "gauge example"">
 
 Flexdashboard comes with several built-in widgets; one is the `gauge`, which we use to mark progress in study enrollment. It's a quick, informative way to see how far we've come in hitting our enrollment target.
 
 ### Warning Signs with `valueBox`es and Conditional Coloring
 
-<img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:300px;height:84px" src="/images/flexdash_valuebox.png"" alt = "valueBox example"">
+<img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:200px;height:31px" src="/images/flexdash_valuebox.png"" alt = "valueBox example"">
 
 flexdashboard's `valueBox` widget works well for either positive reinforcement or for warning us when something goes below a specified target. For example, the primary exposure in our study is level of activity in the ICU; one way we measure this is via accelerometers patients wear on their wrist and ankle (think an industrial FitBit). When our `valueBox` goes from green to orange, we know that we need to communicate with our in-hospital team to address barriers to wearing the devices.
 
