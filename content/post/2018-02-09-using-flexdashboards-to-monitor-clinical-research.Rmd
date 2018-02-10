@@ -8,6 +8,7 @@ output:
   blogdown::html_page:
     fig_width: 6
     toc: true
+    toc_depth: 1
 categories:
   - flexdashboard
   - visualization
@@ -64,7 +65,7 @@ Flexdashboards can include interactive components using [Shiny](shiny.rstudio.co
 
 Rather than repeat how-to information you can find in the very helpful flexdashboard docs, I'll highlight some features and capabilities I've found particularly useful in the context of clinical research monitoring. *(Out of an abundance of caution regarding protecting patient data, I'm not sharing the actual dashboard here.)*
 
-![*Screencap of MOSAIC dashboard*](/images/flexdash_example.png)
+<img style="float:center; padding-left:10px; padding-bottom:10px;padding-top:10px" src="/images/flexdash_example.png"" alt = "MOSAIC dashboard screencap"">
 
 ### Separate Pages for Separate Topics
 
