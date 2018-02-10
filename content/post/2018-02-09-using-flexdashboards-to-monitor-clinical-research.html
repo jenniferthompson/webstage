@@ -7,6 +7,7 @@ slug: flexdashboards-monitoring
 output:
   blogdown::html_page:
     fig_width: 6
+    toc: true
 categories:
   - flexdashboard
   - visualization
@@ -51,6 +52,21 @@ tags:
 <link href="/rmarkdown-libs/htmlwdgtgrid/htmlwdgtgrid.css" rel="stylesheet" />
 <script src="/rmarkdown-libs/highchart-binding/highchart.js"></script>
 
+<div id="TOC">
+<ul>
+<li><a href="#study-background">Study Background</a></li>
+<li><a href="#flexdashboard-primer-for-the-unfamiliar">Flexdashboard Primer for the Unfamiliar</a></li>
+<li><a href="#particularly-helpful-features">Particularly Helpful Features</a><ul>
+<li><a href="#separate-pages-for-separate-topics">Separate Pages for Separate Topics</a></li>
+<li><a href="#interactive-graphics">Interactive Graphics</a></li>
+<li><a href="#hierarchical-treemaps-with-the-treemap-and-highcharter-packages">Hierarchical Treemaps with the <code>treemap</code> and <code>highcharter</code> Packages</a></li>
+<li><a href="#progress-indicators-with-gauges">Progress Indicators with <code>gauge</code>s</a></li>
+<li><a href="#warning-signs-with-valueboxes-and-conditional-coloring">Warning Signs with <code>valueBox</code>es and Conditional Coloring</a></li>
+<li><a href="#nice-tabular-printing">Nice Tabular Printing</a></li>
+</ul></li>
+<li><a href="#dashboards-communication">Dashboards != Communication</a></li>
+</ul>
+</div>
 
 <p>Much of my work involves prospective clinical research, where data collection can take months or years to complete and relies on continuous effort from multidisciplinary teams. Throughout the study, we monitor progress in various ways, such as…</p>
 <ul>
@@ -59,7 +75,7 @@ tags:
 <li><strong>Key aspects of the study protocol</strong>, such as making sure study devices are worn consistently</li>
 <li><strong>Follow-up rates</strong>, to alert us when we need new strategies to maintain contact with patients and their families over years of follow-up</li>
 </ul>
-<p>In previous studies, our <a href="www.icudelirium.org">critical care research organization</a> used weekly PDF reports created in <code>knitr</code>/LaTeX to monitor study progress. While helpful, their length and detail tend to bury our most important metrics amid numbers that we only need occasionally. For our most recent study, I created a <a href="http://rmarkdown.rstudio.com/flexdashboard/">flexdashboard</a> which summarizes our most important metrics of study progress in a way that</p>
+<p>In previous studies, our <a href="icudelirium.org">critical care research organization</a> used weekly PDF reports created in <code>knitr</code>/LaTeX to monitor study progress. While helpful, their length and detail tend to bury our most important metrics amid numbers that we only need occasionally. For our most recent study, I created a <a href="http://rmarkdown.rstudio.com/flexdashboard/">flexdashboard</a> which summarizes our most important metrics of study progress in a way that</p>
 <ul>
 <li>Gives us a quick, clear overview of what’s happening;</li>
 <li>Provides additional detail as needed via interactive graphics; and</li>
@@ -91,7 +107,7 @@ output:
 <h2>Particularly Helpful Features</h2>
 <p>Rather than repeat how-to information you can find in the very helpful flexdashboard docs, I’ll highlight some features and capabilities I’ve found particularly useful in the context of clinical research monitoring. <em>(Out of an abundance of caution regarding protecting patient data, I’m not sharing the actual dashboard here.)</em></p>
 <div class="figure">
-<img src="flexdash_example.jpg" alt="Screencap of MOSAIC dashboard" />
+<img src="flexdash_example.png" alt="Screencap of MOSAIC dashboard" />
 <p class="caption"><em>Screencap of MOSAIC dashboard</em></p>
 </div>
 <div id="separate-pages-for-separate-topics" class="section level3">
@@ -175,7 +191,7 @@ library(highcharter)</code></pre>
 </div>
 <div id="progress-indicators-with-gauges" class="section level3">
 <h3>Progress Indicators with <code>gauge</code>s</h3>
-<p><img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:200px;height:123px" src="/images/flexdash_gauge.png"" alt = "gauge example""></p>
+<p><img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:200px;height:31px" src="/images/flexdash_gauge.png"" alt = "gauge example""></p>
 <p>Flexdashboard comes with several built-in widgets; one is the <code>gauge</code>, which we use to mark progress in study enrollment. It’s a quick, informative way to see how far we’ve come in hitting our enrollment target.</p>
 </div>
 <div id="warning-signs-with-valueboxes-and-conditional-coloring" class="section level3">
@@ -185,10 +201,10 @@ library(highcharter)</code></pre>
 </div>
 <div id="nice-tabular-printing" class="section level3">
 <h3>Nice Tabular Printing</h3>
-<p>Our current dashboard uses <code>knitr::kable</code> for one small table and <code>DT::datatable</code> for a larger one. If this study were a randomized clinical trial in which we needed to monitor open-label drug use, <code>DT</code> would be a great way to list all open-label doses in a searchable, paginated format - much better than the pages of Latex tables in our previous reports!</p>
+<p>Our current dashboard uses <code>knitr::kable</code> for one small table and <code>DT::datatable</code> for a larger one. If this study were a randomized clinical trial in which we needed to monitor open-label drug use, <code>DT</code> would be a great way to list all open-label doses in a searchable, sortable, paginated format - much better than the pages of Latex tables in our previous reports!</p>
 </div>
 </div>
 <div id="dashboards-communication" class="section level2">
 <h2>Dashboards != Communication</h2>
-<p>Building this dashboard has been (and continues to be!) an iterative process, based on the needs of our various teams. <strong>It is meant to facilitate communication, not to replace it.</strong> No matter how snazzy it looks, a dashboard isn’t informative at all if the user doesn’t have the background and knowledge they need to interpret it, or if it’s not giving information that can lead to action. Our immediate goal with this dashboard is to alert us quickly to anything going on that warrants either corrective action or positive reinforcement. This in turn helps us get to our ultimate goal: to produce the strongest research possible, advancing science and improving the experiences of critically ill patients and their loved ones.</p>
+<p>Building this dashboard has been (and continues to be!) an iterative process, based on the needs of our various teams. <strong>It is meant to facilitate communication, not to replace it.</strong> No matter how snazzy it looks, a dashboard isn’t informative at all if the user doesn’t have the background and knowledge they need to interpret it, or if it’s not giving information that can lead to action. Our immediate goal with this dashboard is to alert us quickly to anything going on that warrants either corrective action or positive reinforcement. This in turn helps us get to our ultimate goal: to produce the strongest research possible, which will advance science and improve the experiences of critically ill patients and their loved ones.</p>
 </div>
