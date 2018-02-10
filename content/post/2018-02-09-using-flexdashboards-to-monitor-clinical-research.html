@@ -1,0 +1,191 @@
+---
+title: Using Flexdashboards to Monitor Clinical Research
+author: Jennifer Thompson
+date: '2018-02-09'
+featured_image: '/images/alfonsoxii.jpg'
+slug: flexdashboards-monitoring
+output:
+  blogdown::html_page:
+    fig_width: 6
+categories:
+  - flexdashboard
+  - visualization
+  - biostatistics
+tags:
+  - flexdashboard
+  - R Markdown
+  - “interactive graphics"
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<script src="/rmarkdown-libs/proj4js/proj4.js"></script>
+<link href="/rmarkdown-libs/highcharts/css/motion.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/highcharts/highstock.js"></script>
+<script src="/rmarkdown-libs/highcharts/highcharts-3d.js"></script>
+<script src="/rmarkdown-libs/highcharts/highcharts-more.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/annotations.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/broken-axis.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/data.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/drilldown.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/exporting.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/funnel.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/heatmap.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/map.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/no-data-to-display.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/offline-exporting.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/solid-gauge.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/treemap.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/annotations.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/draggable-legend.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/draggable-points.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/export-csv.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/grouped-categories.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/motion.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/pattern-fill-v2.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/tooltip-delay.js"></script>
+<script src="/rmarkdown-libs/highcharts/custom/reset.js"></script>
+<script src="/rmarkdown-libs/highcharts/custom/symbols-extra.js"></script>
+<script src="/rmarkdown-libs/highcharts/custom/text-symbols.js"></script>
+<link href="/rmarkdown-libs/fontawesome/font-awesome.min.css" rel="stylesheet" />
+<link href="/rmarkdown-libs/htmlwdgtgrid/htmlwdgtgrid.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/highchart-binding/highchart.js"></script>
+
+
+<p>As a biostatistician, much of my work involves prospective clinical research, where data collection can take months or years to complete. These types of studies rely on continuous effort from multidisciplinary teams, each of which benefits from monitoring key study components throughout data collection. Some examples might include…</p>
+<ul>
+<li><strong>Rates of enrollment and reasons for patient exclusion</strong>: We need to make sure our study reflects the population we intended to study, and that we can complete it with the time and funds we have available.</li>
+<li><strong>Open-label medication use</strong>: If our double-blind study is comparing a statin and placebo, but people in the placebo group are often prescribed statins outside of their study drug dose, our two groups aren’t actually very different - which means we can’t draw reliable conclusions about the <em>actual</em> difference between statin and placebo. So in these cases, it’s important to monitor use of the study medications outside what is specified in the protocol.</li>
+<li><strong>Key aspects of the study protocol</strong>: In one current study, our primary exposure is the level of physical activity in the ICU, measured in part by accelerometers that patients wear on their wrists and ankles. We need to keep an eye on how often the accelerometers are removed to quickly address any barriers to wearing the devices and to make sure the data on our exposure is as reliable and complete as possible.</li>
+<li><strong>Follow-up rates</strong>: In studies with long-term outcomes, finding patients and assessing their outcomes can be a huge challenge (one at which <a href="http://www.icudelirium.org/group/ourteam.html">our neuropsychology team</a> excels!). Monitoring rates of follow-up helps us know if we need to put new strategies in place to make sure we get to as many patients as we can, so that our study results more generalizable and less biased.</li>
+</ul>
+<p>In previous studies, our <a href="www.icudelirium.org">critical care research organization</a> used weekly PDF reports created in <code>knitr</code>/LaTeX to monitor study progress; while helpful, their length and detail tend to bury our most important metrics amid numbers that we only need occasionally. For our <a href="https://clinicaltrials.gov/ct2/show/NCT03115840">most recent study</a>, I created a <a href="http://rmarkdown.rstudio.com/flexdashboard/">flexdashboard</a> which summarizes our most important metrics of study progress in a way that</p>
+<ul>
+<li>Gives us a quick, clear overview of what’s happening;</li>
+<li>Provides additional detail as needed via interactive graphics; and</li>
+<li>Updates on every run by accessing our <a href="https://projectredcap.org">database</a> API.</li>
+</ul>
+<p>The entire project can be found in <a href="https://github.com/jenniferthompson/MOSAICProgress">this Github repo</a>; it includes an <code>.Rmd</code> file for the actual dashboard which sources a <code>.R</code> script for data preparation.</p>
+<div id="study-background" class="section level2">
+<h2>Study Background</h2>
+<p>The MOSAIC (Measuring OutcomeS of Activity in Intensive Care) study will evaluate the relationship between patients’ activity levels during their ICU stay and their disability, physical function, and cognition up to a year after their critical illness. More information on the study can be found on <a href="https://clinicaltrials.gov/ct2/show/NCT03115840">clinicaltrials.gov</a>.</p>
+<p>We started data collection in March 2017, and will eventually enroll 312 patients from the Vanderbilt ICUs. As patient enrollment and follow-up continue, we want to monitor rates of screening, enrollment, and follow-up and to make sure that key study data is being collected while patients are in the hospital. Enter the flexdashboard!</p>
+</div>
+<div id="flexdashboard-primer-for-the-unfamiliar" class="section level2">
+<h2>Flexdashboard Primer for the Unfamiliar</h2>
+<p>RMarkdown, saved with the <code>.Rmd</code> extension, allows us to interweave R code with Markdown text and create output in HTML, PDF, and other formats. flexdashboard output is a special type of HTML output from RMarkdown which emphasizes data visualizations. Use your <code>.Rmd</code> YAML to specify this output type and set a few options:</p>
+<pre><code>---
+title: &quot;MOSAIC Study Progress&quot;
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    theme: cosmo
+    logo: favicon_48x48.png
+    favicon: favicon_48x48.png
+---</code></pre>
+<p>If you use RStudio, flexdashboards are also available as an RMarkdown template when you create a new file. RStudio’s <a href="http://rmarkdown.rstudio.com/flexdashboard/">flexdashboard page</a> has more!</p>
+<p>Flexdashboards can include interactive components using <a href="shiny.rstudio.com">Shiny</a>. That level of interactivity wouldn’t add much value for our single-center study, and I wanted to be able to send a static file to our team (vs requiring an internet connection), so we stick to the simpler non-Shiny version. For multicenter studies, I think using Shiny or <a href="https://hafen.github.io/trelliscopejs/">trelliscopejs</a> have a lot of potential for looking at overall numbers as well as individual site metrics.</p>
+</div>
+<div id="particularly-helpful-features" class="section level2">
+<h2>Particularly Helpful Features</h2>
+<p>Rather than repeat information you can find in the very helpful flexdashboard docs, I’ll highlight some features and capabilities I’ve found particularly useful in the context of clinical research monitoring. <em>(Out of an [over]abundance of caution regarding protecting patient data, I’m not sharing the actual dashboard here.)</em></p>
+<div class="figure">
+<img src="flexdash_example.jpg" alt="Screencap of MOSAIC dashboard" />
+<p class="caption"><em>Screencap of MOSAIC dashboard</em></p>
+</div>
+<div id="separate-pages-for-separate-topics" class="section level3">
+<h3>Separate Pages for Separate Topics</h3>
+<p>Most of our studies are divided into three phases: screening and enrollment; in-hospital data collection; and long-term follow-up. Having one flexdashboard page per phase helps us focus attention on the most relevant metrics for different team members in a way that lets them quickly get to what they need. It’s easy to do using Markdown headers:</p>
+<pre><code>Screening &amp; Enrollment
+=====================================
+
+In-Hospital
+=====================================
+
+Follow-Up
+=====================================
+
+Study &amp; Technical Info
+=====================================
+</code></pre>
+</div>
+<div id="interactive-graphics" class="section level3">
+<h3>Interactive Graphics</h3>
+<p>There are quite a few ways to incorporate interactive graphics into a flexdashboard (see <a href="http://www.htmlwidgets.org/"><code>htmlwidgets</code></a> for one great list of options); thus far, I’ve mainly used <a href="https://plotly-book.cpsievert.me/"><code>plotly</code></a>. Using <code>plotly</code> graphics instead of static figures has allowed us to focus on the big picture quickly while incorporating detailed information in tooltips. For example, we have 16 separate reasons for study exclusion, and want to track how these change over time. Using text to denote which line is which exclusion would be incredibly crowded, but with <code>plotly</code>, we can get rid of the legend and still have the information there when we need it. <code>plotly</code>’s zoom capabilities are also really helpful for investigating data points more closely.</p>
+</div>
+<div id="hierarchical-treemaps-with-the-treemap-and-highcharter-packages" class="section level3">
+<h3>Hierarchical Treemaps with the <code>treemap</code> and <code>highcharter</code> Packages</h3>
+<p>Treemaps are a useful way for us to quickly get a sense of some piece of study information, then drill down for more detail as needed. For example, we’ve grouped our 16 exclusions into a few major categories. A quick look at our treemap gives us a great <em>broad</em> sense of why patients are being excluded. If we’re curious about what <em>specific</em> medical reasons are excluding patients, for example, we can drill down and see those details.</p>
+<pre class="r"><code>## -- Shortened, simulated example of our exclusions treemap -------------------
+library(treemap)
+library(highcharter)</code></pre>
+<pre><code>## Highcharts (www.highcharts.com) is a Highsoft software product which is</code></pre>
+<pre><code>## not free for commercial and Governmental use</code></pre>
+<pre class="r"><code>exc_df &lt;- data.frame(
+  Reason = c(
+    &quot;&gt;5 hospital days in last 30&quot;, &quot;Cannot complete verbal assessments&quot;,
+    &quot;BMI &gt; 50&quot;, &quot;Moribund&quot;, &quot;Homeless&quot;, &quot;Inability to live independently&quot;,
+    &quot;Lives &gt;150 miles away&quot;, &quot;No surrogate within 72h&quot;, &quot;Other&quot;,
+    &quot;Refused consent&quot;, &quot;Rapidly resolving organ failure&quot;,
+    &quot;Severe neurologic injury&quot;, &quot;Study with no co-enrollment&quot;,
+    &quot;Substance abuse&quot;
+  ),
+  n_reason = c(482, 21, 53, 43, 8, 125, 75, 40, 3, 62, 8, 51, 5, 69),
+  n_patients_exc = rep(1000, 14),
+  reason_type = c(
+    &quot;Medical exclusions&quot;, &quot;Patient characteristics&quot;,
+    &quot;Patient characteristics&quot;, &quot;Medical exclusions&quot;,
+    &quot;Patient characteristics&quot;, &quot;Patient characteristics&quot;, &quot;Geography&quot;,
+    &quot;Informed consent&quot;, &quot;Other exclusions&quot;, &quot;Informed consent&quot;,
+    &quot;Medical exclusions&quot;, &quot;Medical exclusions&quot;, &quot;Other exclusions&quot;,
+    &quot;Patient characteristics&quot;
+  )
+)
+
+tm_exc &lt;- treemap(
+  dtf = exc_df,
+  index = c(&quot;reason_type&quot;, &quot;Reason&quot;),
+  vSize = &quot;n_reason&quot;,
+  type = &quot;index&quot;,
+  title = &quot;&quot;,
+  algorithm = &quot;squarified&quot;,
+  palette = c(&quot;#E76A32&quot;, &quot;#3BB547&quot;, &quot;#0477BF&quot;, &quot;#1A653E&quot;, &quot;#D71A60&quot;),
+    ## colors from our study logo
+  draw = FALSE
+)</code></pre>
+<p><img src="/post/2018-02-09-using-flexdashboards-to-monitor-clinical-research_files/figure-html/treemap-1.png" width="576" /></p>
+<pre class="r"><code>hc_tm_exc &lt;- hctreemap(
+  tm_exc,
+  width = 500,
+  allowDrillToNode = TRUE,
+  layoutAlgorithm = &quot;squarified&quot;,
+  levels = list(levelIsConstant = &quot;false&quot;),
+  dataLabels = list(style = list(color = &quot;white&quot;,
+                                 textOutline = &quot;0px contrast&quot;,
+                                 fontSize = &quot;10px&quot;))
+)
+
+hc_tm_exc</code></pre>
+<div id="htmlwidget-1" style="width:100%;height:500px;" class="highchart html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"hc_opts":{"title":{"text":null},"yAxis":{"title":{"text":null}},"credits":{"enabled":false},"exporting":{"enabled":false},"plotOptions":{"series":{"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"bubble":{"minSize":5,"maxSize":25}},"annotationsOptions":{"enabledButtons":false},"tooltip":{"delayForDisplay":10},"series":[{"data":[{"name":"Geography","Reason":null,"value":75,"valuecolor":1,"level":1,"color":"#E76A32","id":"geography","reason_type":null},{"name":"Informed consent","Reason":null,"value":102,"valuecolor":2,"level":1,"color":"#3BB547","id":"informed_consent","reason_type":null},{"name":"Medical exclusions","Reason":null,"value":584,"valuecolor":4,"level":1,"color":"#0477BF","id":"medical_exclusions","reason_type":null},{"name":"Other exclusions","Reason":null,"value":8,"valuecolor":2,"level":1,"color":"#1A653E","id":"other_exclusions","reason_type":null},{"name":"Patient characteristics","Reason":null,"value":276,"valuecolor":5,"level":1,"color":"#D71A60","id":"patient_characteristics","reason_type":null},{"name":"Lives >150 miles away","Reason":null,"value":75,"valuecolor":1,"level":2,"color":"#E76A32","id":"lives_>150_miles_away","parent":"geography","reason_type":"Geography"},{"name":"No surrogate within 72h","Reason":null,"value":40,"valuecolor":1,"level":2,"color":"#28A31F","id":"no_surrogate_within_72h","parent":"informed_consent","reason_type":"Informed consent"},{"name":"Refused consent","Reason":null,"value":62,"valuecolor":1,"level":2,"color":"#1FA342","id":"refused_consent","parent":"informed_consent","reason_type":"Informed consent"},{"name":">5 hospital days in last 30","Reason":null,"value":482,"valuecolor":1,"level":2,"color":"#0086AC","id":">5_hospital_days_in_last_30","parent":"medical_exclusions","reason_type":"Medical exclusions"},{"name":"Moribund","Reason":null,"value":43,"valuecolor":1,"level":2,"color":"#0073AC","id":"moribund","parent":"medical_exclusions","reason_type":"Medical exclusions"},{"name":"Rapidly resolving organ failure","Reason":null,"value":8,"valuecolor":1,"level":2,"color":"#0060AC","id":"rapidly_resolving_organ_failure","parent":"medical_exclusions","reason_type":"Medical exclusions"},{"name":"Severe neurologic injury","Reason":null,"value":51,"valuecolor":1,"level":2,"color":"#004DAC","id":"severe_neurologic_injury","parent":"medical_exclusions","reason_type":"Medical exclusions"},{"name":"Other","Reason":null,"value":3,"valuecolor":1,"level":2,"color":"#0A5B23","id":"other","parent":"other_exclusions","reason_type":"Other exclusions"},{"name":"Study with no co-enrollment","Reason":null,"value":5,"valuecolor":1,"level":2,"color":"#0A5B3E","id":"study_with_no_co-enrollment","parent":"other_exclusions","reason_type":"Other exclusions"},{"name":"BMI > 50","Reason":null,"value":53,"valuecolor":1,"level":2,"color":"#C20068","id":"bmi_>_50","parent":"patient_characteristics","reason_type":"Patient characteristics"},{"name":"Cannot complete verbal assessments","Reason":null,"value":21,"valuecolor":1,"level":2,"color":"#C20058","id":"cannot_complete_verbal_assessments","parent":"patient_characteristics","reason_type":"Patient characteristics"},{"name":"Homeless","Reason":null,"value":8,"valuecolor":1,"level":2,"color":"#C20048","id":"homeless","parent":"patient_characteristics","reason_type":"Patient characteristics"},{"name":"Inability to live independently","Reason":null,"value":125,"valuecolor":1,"level":2,"color":"#C20038","id":"inability_to_live_independently","parent":"patient_characteristics","reason_type":"Patient characteristics"},{"name":"Substance abuse","Reason":null,"value":69,"valuecolor":1,"level":2,"color":"#C20027","id":"substance_abuse","parent":"patient_characteristics","reason_type":"Patient characteristics"}],"type":"treemap","width":500,"allowDrillToNode":true,"layoutAlgorithm":"squarified","levels":{"levelIsConstant":"false"},"dataLabels":{"style":{"color":"white","textOutline":"0px contrast","fontSize":"10px"}}}]},"theme":{"chart":{"backgroundColor":"transparent"}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="progress-indicators-with-gauges" class="section level3">
+<h3>Progress Indicators with <code>gauge</code>s</h3>
+<p>Flexdashboard comes with several built-in widgets; one is the <code>gauge</code>, which we use to mark progress in study enrollment. It’s a quick, informative way to see how far we’ve come in hitting our enrollment target.</p>
+<p><img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:200px;height:123px" src="/images/flexdash_gauge.png"" alt = "gauge example""></p>
+</div>
+<div id="warning-signs-with-valueboxes-and-conditional-coloring" class="section level3">
+<h3>Warning Signs with <code>valueBox</code>es and Conditional Coloring</h3>
+<p>flexdashboard’s <code>valueBox</code> widget works well to warn us when something goes below a specified target. For example, the primary exposure in our study is level of activity in the ICU; one way we measure this is via accelerometers that the patients wear on their wrist and ankles (think an industrial FitBit). If those accelerometers are removed too often (maybe the patient is too irritated by them), our exposure data will be less reliable. So as one of our key metrics, we have a <code>valueBox</code> to monitor how many patients have their accelerometers permanently removed. If this gets too high, we try to address barriers to wearing them.</p>
+<p><img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:300px;height:84px" src="/images/flexdash_valuebox.png"" alt = "valueBox example""></p>
+</div>
+<div id="nice-tabular-printing" class="section level3">
+<h3>Nice Tabular Printing</h3>
+<p>Our current dashboard uses <code>knitr::kable</code> for one small table and <code>DT::datatable</code> for a larger one; both print nicely in this Markdown format, and for large tables, <code>DT</code> has tons of helpful functionality. If this study were a randomized clinical trial in which we needed to monitor open-label drug use, <code>DT</code> would be a great way to list all open-label doses in a searchable, paginated format - much better than the pages of Latex tables in our previous reports!</p>
+</div>
+</div>
+<div id="dashboards-communication" class="section level2">
+<h2>Dashboards != Communication</h2>
+<p>Building this dashboard has been (and continues to be!) an iterative process, based on the needs of our various teams. <strong>It is meant to facilitate communication, not to replace it.</strong> No matter how snazzy it looks, a dashboard isn’t informative at all if the user doesn’t have the background and knowledge they need to interpret it, or if it’s not giving information that can lead to action. Our immediate goal with this dashboard is to alert us quickly to anything going on that might need discussion and either corrective action or positive reinforcement. This in turn helps us get to our ultimate goal: to produce the strongest research possible, advancing science and improving the experiences of critically ill patients and their loved ones.</p>
+</div>

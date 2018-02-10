@@ -4,7 +4,9 @@ author: Jennifer Thompson
 date: '2018-02-09'
 featured_image: '/images/alfonsoxii.jpg'
 slug: flexdashboards-monitoring
-output: blogdown::html_page
+output:
+  blogdown::html_page:
+    fig_width: 6
 categories:
   - flexdashboard
   - visualization
