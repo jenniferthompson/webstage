@@ -92,7 +92,7 @@ There are quite a few ways to incorporate interactive graphics into a flexdashbo
 
 Treemaps are a useful way for us to quickly get a sense of some piece of study information, then drill down for more detail as needed. For example, we've grouped our 16 exclusions into a few major categories. A quick look at our treemap gives us a great *broad* sense of why patients are being excluded. If we're curious about what *specific* medical reasons are excluding patients, for example, we can drill down and see those details.
 
-```{r treemap}
+```{r treemap, results = "hide"}
 ## -- Shortened, simulated example of our exclusions treemap -------------------
 library(treemap)
 library(highcharter)
@@ -141,21 +141,24 @@ hc_tm_exc <- hctreemap(
                                  fontSize = "10px"))
 )
 
+```
+
+```{r print_treemap}
 hc_tm_exc
 
 ```
 
 ### Progress Indicators with `gauge`s
 
-Flexdashboard comes with several built-in widgets; one is the `gauge`, which we use to mark progress in study enrollment. It's a quick, informative way to see how far we've come in hitting our enrollment target.
-
 <img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:200px;height:123px" src="/images/flexdash_gauge.png"" alt = "gauge example"">
+
+Flexdashboard comes with several built-in widgets; one is the `gauge`, which we use to mark progress in study enrollment. It's a quick, informative way to see how far we've come in hitting our enrollment target.
 
 ### Warning Signs with `valueBox`es and Conditional Coloring
 
-flexdashboard's `valueBox` widget works well to warn us when something goes below a specified target. For example, the primary exposure in our study is level of activity in the ICU; one way we measure this is via accelerometers that the patients wear on their wrist and ankles (think an industrial FitBit). If those accelerometers are removed too often (maybe the patient is too irritated by them), our exposure data will be less reliable. So as one of our key metrics, we have a `valueBox` to monitor how many patients have their accelerometers permanently removed. If this gets too high, we try to address barriers to wearing them.
-
 <img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:300px;height:84px" src="/images/flexdash_valuebox.png"" alt = "valueBox example"">
+
+flexdashboard's `valueBox` widget works well to warn us when something goes below a specified target. For example, the primary exposure in our study is level of activity in the ICU; one way we measure this is via accelerometers that the patients wear on their wrist and ankles (think an industrial FitBit). If those accelerometers are removed too often (maybe the patient is too irritated by them), our exposure data will be less reliable. So as one of our key metrics, we have a `valueBox` to monitor how many patients have their accelerometers permanently removed. If this gets too high, we try to address barriers to wearing them.
 
 ### Nice Tabular Printing
 
