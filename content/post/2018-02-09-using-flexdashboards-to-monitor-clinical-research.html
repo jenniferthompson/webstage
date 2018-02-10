@@ -8,6 +8,7 @@ output:
   blogdown::html_page:
     fig_width: 6
     toc: true
+    toc_depth: 1
 categories:
   - flexdashboard
   - visualization
@@ -52,21 +53,6 @@ tags:
 <link href="/rmarkdown-libs/htmlwdgtgrid/htmlwdgtgrid.css" rel="stylesheet" />
 <script src="/rmarkdown-libs/highchart-binding/highchart.js"></script>
 
-<div id="TOC">
-<ul>
-<li><a href="#study-background">Study Background</a></li>
-<li><a href="#flexdashboard-primer-for-the-unfamiliar">Flexdashboard Primer for the Unfamiliar</a></li>
-<li><a href="#particularly-helpful-features">Particularly Helpful Features</a><ul>
-<li><a href="#separate-pages-for-separate-topics">Separate Pages for Separate Topics</a></li>
-<li><a href="#interactive-graphics">Interactive Graphics</a></li>
-<li><a href="#hierarchical-treemaps-with-the-treemap-and-highcharter-packages">Hierarchical Treemaps with the <code>treemap</code> and <code>highcharter</code> Packages</a></li>
-<li><a href="#progress-indicators-with-gauges">Progress Indicators with <code>gauge</code>s</a></li>
-<li><a href="#warning-signs-with-valueboxes-and-conditional-coloring">Warning Signs with <code>valueBox</code>es and Conditional Coloring</a></li>
-<li><a href="#nice-tabular-printing">Nice Tabular Printing</a></li>
-</ul></li>
-<li><a href="#dashboards-communication">Dashboards != Communication</a></li>
-</ul>
-</div>
 
 <p>Much of my work involves prospective clinical research, where data collection can take months or years to complete and relies on continuous effort from multidisciplinary teams. Throughout the study, we monitor progress in various ways, such as…</p>
 <ul>
@@ -106,10 +92,7 @@ output:
 <div id="particularly-helpful-features" class="section level2">
 <h2>Particularly Helpful Features</h2>
 <p>Rather than repeat how-to information you can find in the very helpful flexdashboard docs, I’ll highlight some features and capabilities I’ve found particularly useful in the context of clinical research monitoring. <em>(Out of an abundance of caution regarding protecting patient data, I’m not sharing the actual dashboard here.)</em></p>
-<div class="figure">
-<img src="flexdash_example.png" alt="Screencap of MOSAIC dashboard" />
-<p class="caption"><em>Screencap of MOSAIC dashboard</em></p>
-</div>
+<p><img style="float:center; padding-left:10px; padding-bottom:10px;padding-top:10px" src="/images/flexdash_example.png"" alt = "MOSAIC dashboard screencap""></p>
 <div id="separate-pages-for-separate-topics" class="section level3">
 <h3>Separate Pages for Separate Topics</h3>
 <p>Most of our studies are divided into three phases, each conducted by different teams within our group. Having one flexdashboard page per phase helps each team quickly focus attention on the most relevant metrics for their work. It’s easy to do using Markdown headers:</p>
@@ -191,12 +174,12 @@ library(highcharter)</code></pre>
 </div>
 <div id="progress-indicators-with-gauges" class="section level3">
 <h3>Progress Indicators with <code>gauge</code>s</h3>
-<p><img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:200px;height:31px" src="/images/flexdash_gauge.png"" alt = "gauge example""></p>
+<p><img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:200px;height:123px" src="/images/flexdash_gauge.png"" alt = "gauge example""></p>
 <p>Flexdashboard comes with several built-in widgets; one is the <code>gauge</code>, which we use to mark progress in study enrollment. It’s a quick, informative way to see how far we’ve come in hitting our enrollment target.</p>
 </div>
 <div id="warning-signs-with-valueboxes-and-conditional-coloring" class="section level3">
 <h3>Warning Signs with <code>valueBox</code>es and Conditional Coloring</h3>
-<p><img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:300px;height:84px" src="/images/flexdash_valuebox.png"" alt = "valueBox example""></p>
+<p><img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:200px;height:31px" src="/images/flexdash_valuebox.png"" alt = "valueBox example""></p>
 <p>flexdashboard’s <code>valueBox</code> widget works well for either positive reinforcement or for warning us when something goes below a specified target. For example, the primary exposure in our study is level of activity in the ICU; one way we measure this is via accelerometers patients wear on their wrist and ankle (think an industrial FitBit). When our <code>valueBox</code> goes from green to orange, we know that we need to communicate with our in-hospital team to address barriers to wearing the devices.</p>
 </div>
 <div id="nice-tabular-printing" class="section level3">
