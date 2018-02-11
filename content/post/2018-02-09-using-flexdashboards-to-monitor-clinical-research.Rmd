@@ -169,7 +169,7 @@ Flexdashboard comes with several built-in widgets; one is the `gauge`, which we 
 
 ### Warning Signs with `valueBox`es and Conditional Coloring
 
-<img style="float:right; padding-left:10px; padding-bottom:5px;padding-top:10px;width:275px;height:95px" src="/images/flexdash_valuebox.png"" alt = "valueBox example"">
+<img style="float:right; padding-left:10px; padding-bottom:2px;padding-top:10px;width:275px;height:95px" src="/images/flexdash_valuebox.png"" alt = "valueBox example"">
 
 flexdashboard's `valueBox` widget works well for either positive reinforcement or for warning us when something goes below a specified target. For example, the primary exposure in our study is level of activity in the ICU; one way we measure this is via accelerometers patients wear on their wrist and ankle (think an industrial FitBit). When our `valueBox` goes from green to orange, we know that we need to communicate with our in-hospital team to address barriers to wearing the devices.
 
@@ -179,4 +179,4 @@ Our current dashboard uses `knitr::kable` for one small table and `DT::datatable
 
 ## Dashboards != Communication
 
-Building this dashboard has been (and continues to be!) an iterative process, based on the needs of our various teams. **It is meant to facilitate communication, not to replace it.**  No matter how snazzy it looks, a dashboard isn't informative at all if the user doesn't have the background and knowledge they need to interpret it, or if it's not giving information that can lead to action. Our immediate goal with this dashboard is to alert us quickly to important changes or successes, so that we can communicate as a team to implement corrective action or reinforce what's working. The dashboard is a tools to get to our ultimate goal: to produce the strongest research possible, which will advance science and improve the experiences of critically ill patients and their loved ones.
+Building this dashboard has been (and continues to be!) an iterative process, based on the needs of our various teams. **It is meant to facilitate communication, not to replace it.**  No matter how snazzy it looks, a dashboard isn't informative at all if the user doesn't have the background and knowledge they need to interpret it, or if it's not giving information that can lead to action. Our immediate goal by using this flexdashboard is to be quickly alerted to important changes or successes, so that we can communicate as a team to implement corrective action or reinforce what's working. The dashboard is a tool to get to our *ultimate* goal: to produce the strongest research possible, which will advance science and improve the experiences of critically ill patients and their loved ones.
