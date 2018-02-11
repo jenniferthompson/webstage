@@ -1,5 +1,5 @@
 title        = "Jennifer Thompson"
-baseURL      = "https://jenniferthompson.netlify.com"
+baseURL      = "https://jenthompson.me"
 languageCode = "en-us"
 theme        = "gohugo-theme-ananke"
 ignoreFiles  = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
