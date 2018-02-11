@@ -26,7 +26,7 @@ Much of my work involves prospective clinical research, where data collection ca
 - **Key aspects of the study protocol**, such as making sure study devices are worn consistently
 - **Follow-up rates**, to alert us when we need new strategies to maintain contact with patients and their families over years of follow-up
 
-In previous studies, our [critical care research organization](icudelirium.org) used weekly PDF reports created in `knitr`/LaTeX to monitor study progress. While helpful, their length and detail tend to bury our most important metrics amid numbers that we only need occasionally. For our most recent study, I created a [flexdashboard](http://rmarkdown.rstudio.com/flexdashboard/) which summarizes our most important metrics of study progress in a way that
+In previous studies, our [critical care research organization](http://www.icudelirium.org) used weekly PDF reports created in `knitr`/LaTeX to monitor study progress. While helpful, their length and detail tend to bury our most important metrics amid numbers that we only need occasionally. For our most recent study, I created a [flexdashboard](http://rmarkdown.rstudio.com/flexdashboard/) which summarizes our most important metrics of study progress in a way that
 
 - Gives us a quick, clear overview of what's happening;
 - Provides additional detail as needed via interactive graphics; and
