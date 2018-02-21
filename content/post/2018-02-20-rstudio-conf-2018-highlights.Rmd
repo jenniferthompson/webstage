@@ -16,28 +16,22 @@ Earlier this month I participated in rstudio::conf 2018 in San Diego (many, many
 
 ### Empathy
 
-Empathy was all over this conference - in the scope of the program, for example, which made sure to have a place for all levels of R users and people from all sorts of backgrounds, and in the emphasis on well-designed, useful tools. In his great talk on "[The Unreasonable Effectiveness of Empathy](https://www.youtube.com/watch?v=P7VnKgVMLvY)" *(previous version)*, JD Long talked about how putting ourselves in someone else's shoes can be incredibly helpful for both us and those receiving our work. [Kayla Patel](https://paylakatel.github.io/) talked about developing a Shiny dashboard for [Imagine Boston 2030](https://analytics.boston.gov/app/imagine-boston) that keeps her end user and their goals in mind first and foremost. At the closing fireside chats, [Eduardo Ariño de la Rubia](https://www.linkedin.com/in/earino/) had some important thoughts on the data science hiring process and workers' identity in a changing society.
+Empathy was all over this conference. Most obvious was JD Long's great talk on "[The Unreasonable Effectiveness of Empathy](https://www.youtube.com/watch?v=P7VnKgVMLvY)" *(previous version)*, in which he talked about how putting ourselves in someone else's shoes can be helpful in both communicating results and in anticipating the needs of our clients/collaborators/users (thus saving ourselves time and pain). [Kayla Patel](https://paylakatel.github.io/) talked about developing a Shiny dashboard for [Imagine Boston 2030](https://analytics.boston.gov/app/imagine-boston) that keeps the end user in mind first and foremost - for example, prioritizing clarity and accessibility over technical bells and whistles. At the closing fireside chats, [Eduardo Ariño de la Rubia](https://www.linkedin.com/in/earino/) had some important thoughts on viewing hiring from an employee's perspective and workers' identity in a changing society.
     
 ```{r echo = FALSE}
 blogdown::shortcode("tweet", "959945435216408577")
 
 ```
     
-I'll stop here, but I could go on. It was so evident that the group gathered cares about all facets of users' experiences, from tools to community.
+I'll stop here, but I could go on. It was so evident that the group gathered cares about understanding others' experiences, from well designed tools to creating community to making our work have an impact on our consumers.
 
 ### Cross-pollination
 
-This conference brought people together from all kinds of backgrounds and contexts - just off the top of my head, I met people with backgrounds in marine science and ecology, GIS, energy, tech, and agriculture. Everyone was learning and being inspired by each other, having a great time doing it. Only good can come from this.
+This conference brought people together from all kinds of backgrounds and contexts - just off the top of my head, I met people with backgrounds in marine science and ecology, GIS, energy, tech, and agriculture. Everyone was learning and being inspired by each other, while having a great time doing it. Only good can come from this.
 
-### Tidyeval
-
-I have put off learning [tidyeval](https://www.youtube.com/watch?v=nERXS3ssntw&feature=youtu.be), despite the exciting vocabulary and punctuation (enquo! bang bang!) and [knowing it could be helpful](https://twitter.com/jent103/status/955968131339603968). Thanks to Hadley's "[Extending the Tidyverse](https://www.rstudio.com/workshops/extending-the-tidyverse/)"" workshop, I have now officially written approximately five lines of working tidyeval. It was very exciting.
-
-*(On a more serious note, I'd highly recommend this workshop to anyone looking to improve their functional programming or package development. The material was incredibly useful, and Hadley is a clear, approachable, pragmatic teacher.)*
-    
 ### Community
 
-The conference very intentionally had a welcoming, community-focused vibe, starting beforehand with the "Birds of a Feather" group announcements and going all the way through the weekend. The program was built so that everyone had somewhere to go and something to learn, and having everything in one area created plenty of chances for spontaneous conversation. The friendly, approachable environment and focus on connections made the whole experience better.
+The conference very intentionally had a welcoming, community-focused vibe, starting beforehand with the "Birds of a Feather" group announcements and going all the way through the weekend. The program was built so that everyone had somewhere to go and something to learn, and having everything in one area created plenty of chances for spontaneous conversation. The friendly, approachable environment, focus on connections, and genuinely fun people made the whole experience better.
 
 ### Empowerment
 
@@ -49,10 +43,6 @@ blogdown::shortcode("tweet", "959883234937991174")
 ```
 
 ...or taking new skills and and ideas and improving your own workflows and practices. As much or more than "look at the cool stuff [Well Known Person] does," people seemed to feel really excited about what *they* could do and how they could collaborate and contribute.
-
-### San Diego
-
-I got to wear my Chacos in January, and I'll be forever grateful. Also there were excellent [food](https://saltandstraw.com/sd-locations/), [beverages](https://jamescoffeeco.com/) and [fun](http://thewerewolf.net/).
 
 ### Practicality
 
@@ -68,10 +58,6 @@ That focus on useful, impactful tools and case studies helped me feel like I cou
 ### Inference
 
 With machine learning and prediction [so hot right now](https://www.youtube.com/watch?v=Jhc6CRgwkqg), it was great to hear plenty of conversation about statistical inference as well. Di Cook gave an engaging and practical [keynote](http://www.dicook.org/files/rstudio/#1) that focused on the role visualization can play in inference. Andrew Bray gave a talk on the [`infer`](infer.netlify.com) package, which intends to make statistical inference more transparent whether using approximation or computational methods; I'll be interested to keep an eye on this package as it grows.
-
-### Fun
-
-The actual conference was absolutely fantastic, but to be quite honest the best part of the week was reconnecting with friends and meeting new ones. The R world is full of the most fun people.
 
 ## Personal highlights
 
@@ -90,6 +76,8 @@ Lots of thanks to Petr Simecek for rounding up links [here](https://github.com/s
         ```
     
 - [Carson Sievert](http://cpsievert.me/) blew everyone's minds with his talk on [interactive exploratory data analysis](https://talks.cpsievert.me/20180202). I'm excited to dig into his code.
-- Work from [Edzer Pebesma](https://github.com/edzer/rstudio_conf) on spatial data, [Thomas Lin Pedersen](https://www.data-imaginist.com/slides/rstudioconf2018/assets/player/keynotedhtmlplayer#0) on network analysis, and [Davis Vaughn](https://github.com/business-science/presentations/tree/master/2018_02_02_rstudio-conf-2018/presentation) and [Earo Wang](https://earo.me/talk/rstudioconf18/) on time series tools made those things look so fun that I wish my work involved them. One day... *(Side note: Earo wrote a [blog post](https://t.co/cMldNQEh1D) comparing the `tibbletime` and `tsibble` packages.)*
+- Work from [Edzer Pebesma](https://github.com/edzer/rstudio_conf) on spatial data, [Thomas Lin Pedersen](https://www.data-imaginist.com/slides/rstudioconf2018/assets/player/keynotedhtmlplayer#0) on network analysis, and [Davis Vaughn](https://github.com/business-science/presentations/tree/master/2018_02_02_rstudio-conf-2018/presentation) and [Earo Wang](https://earo.me/talk/rstudioconf18/) on time series tools made me really excited to learn more about those areas. *(Earo wrote a [blog post](https://t.co/cMldNQEh1D) comparing the `tibbletime` and `tsibble` packages.)*
+- Thanks to Hadley's "[Extending the Tidyverse](https://www.rstudio.com/workshops/extending-the-tidyverse/)" workshop (which I would wholeheartedly recommend), I have now officially written approximately five lines of working [tidyeval](https://www.youtube.com/watch?v=nERXS3ssntw). It was very exciting.
+- I got to wear my Chacos in the dead of winter, and I'll be forever grateful. Thanks, San Diego.
 
 Again, many MANY thanks to RStudio for the opportunity to attend this year! The entire experience was both fun and incredibly useful. Next year is already [in the works](https://www.rstudio.com/conference/)...
