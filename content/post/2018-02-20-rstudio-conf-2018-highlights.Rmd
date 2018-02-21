@@ -1,0 +1,95 @@
+---
+title: rstudio::conf 2018 Highlights
+author: Jennifer Thompson
+date: '2018-02-20'
+featured_image: '/images/hotelcoronado.jpg'
+slug: rstudioconf-2018
+categories:
+  - rstudio
+  - conferences
+tags:
+  - rstudio
+  - conferences
+---
+
+Earlier this month I participated in rstudio::conf 2018 in San Diego (many, many thanks to RStudio for that opportunity!). I learned practical skills, got ideas from so many people in different contexts, and (best of all) was able to both reconnect with and meet so many R-world folks. I wanted to sum up some of my favorite takeaways for my own notes, but also for anyone thinking about attending. (TL;DR: You should.) In bulleted list form and no particular order:
+
+### Empathy
+
+Empathy was all over this conference - in attendees' interactions, for example, and in the scope of the program, which made sure to have a place for all levels of R users and people from all sorts of backgrounds. Most obvious was JD Long's great talk on ["The Unreasonable Effectiveness of Empathy"](https://www.youtube.com/watch?v=P7VnKgVMLvY) *(previous version)*, in which he talked about how putting ourselves in someone else's shoes can be helpful in both communicating results and in anticipating the needs of our clients/collaborators/users (thus saving ourselves time and pain). [Kayla Patel](https://paylakatel.github.io/) talked about developing a Shiny dashboard for [Imagine Boston 2030](https://analytics.boston.gov/app/imagine-boston) that keeps the end user in mind first and foremost - for example, prioritizing clarity and accessibility over technical bells and whistles. At the closing fireside chats, [Eduardo Ariño de la Rubia](https://www.linkedin.com/in/earino/) had some important thoughts on the data science hiring process and workers' identity in a changing society.
+    
+    ```{r echo = FALSE}
+    blogdown::shortcode_html('tweet', '959945435216408577')
+
+    ```
+
+I'm stopping here to keep this a reasonable length, but I could go on. It was so evident that the group gathered cares about all facets of users' experiences, from tools to community.
+
+### Cross-pollination
+
+This conference brought people together from all kinds of backgrounds and contexts - just off the top of my head, I met people with backgrounds in marine science and ecology, GIS, energy, tech, and agriculture. Everyone was learning from each other, getting inspiration from each other, and having a great time meeting each other. Only good can come from this.
+
+### Tidyeval
+
+I have put off learning [tidyeval](https://www.youtube.com/watch?v=nERXS3ssntw&feature=youtu.be), despite the exciting vocabulary and punctuation (enquo! bang bang!) and [knowing it could be helpful](https://twitter.com/jent103/status/955968131339603968). Thanks to Hadley's ["Extending the Tidyverse"](https://www.rstudio.com/workshops/extending-the-tidyverse/) workshop, I have now officially written approximately five lines of working tidyeval. It was very exciting.
+
+*(On a more serious note, I'd highly recommend this workshop to anyone looking to improve their functional programming or package development. The material was incredibly useful, and Hadley is a clear, approachable, pragmatic teacher.)*
+    
+### Community
+
+The conference very intentionally had a welcoming, community-focused vibe, starting beforehand with the "Birds of a Feather" group announcements and going all the way through the weekend. The program was built so that everyone had somewhere to go and something to learn, and having everything in one area created plenty of chances for spontaneous conversation. The friendly, approachable environment and focus on connections made the whole experience better.
+
+### Empowerment
+
+People were encouraged over and over to take what they'd learned and immediately contribute to the community or to their workplace. Several of the RStudio team's talks focused on how to contribute to R, whether via writing your own packages; contributing to other people's, as [Mara Averick](twitter.com/dataandme) encouraged us to do...
+
+    ```{r echo = FALSE}
+    blogdown::shortcode("tweet", "959883234937991174")
+
+    ```
+
+...or taking new skills and and ideas and improving your own workflows and practices. As much or more than "look at the cool stuff [Well Known Person] does," people seemed to feel really excited about what *they* could do and how they could collaborate and contribute.
+
+### San Diego
+
+I got to wear my Chacos in January, and I'll be forever grateful. Also there were excellent [food](https://saltandstraw.com/sd-locations/), [beverages](https://jamescoffeeco.com/) and [fun](http://thewerewolf.net/).
+
+### Practicality
+
+Every talk I went to was about something powerful in its application - whether that was presenting analysis to the end user in a way that was clear and communicative, or a tool to make [data people's] lives easier, or a way to teach and empower other people. The sessions weren't overly technical in an attempt to impress; they were full of excitement and ideas for future work. I can't really say it better than JD:
+    
+    ```{r echo = FALSE}
+    blogdown::shortcode("tweet", "959856196369793024")
+    
+    ```
+
+That focus on useful, impactful tools and case studies helped me feel like I could immediately contribute to the community and improve my own work.
+
+### Inference
+
+With machine learning and prediction [so hot right now](https://www.youtube.com/watch?v=Jhc6CRgwkqg), it was great to hear plenty of conversation about statistical inference as well. Di Cook gave an engaging and practical [keynote](http://www.dicook.org/files/rstudio/#1) that focused on the role visualization can play in inference. Andrew Bray gave a talk on the [`infer`](infer.netlify.com) package, which intends to make statistical inference more transparent whether using approximation or computational methods; I'll be interested to keep an eye on this package as it grows.
+
+### Fun
+
+The actual conference was absolutely fantastic, but to be quite honest the best part of the week was reconnecting with friends and meeting new ones. The R world is full of the best, most fun people.
+
+## Particular personal highlights
+
+Lots of thanks to Petr Simecek for rounding up links [here](https://github.com/simecek/RStudioConf2018Slides)! My only regret is not having a [time-turner](http://harrypotter.wikia.com/wiki/Time-Turner); I missed quite a few talks I would have loved to see (hoping the videos will be ready soon).
+
+- Di Cook's [keynote](https://github.com/simecek/RStudioConf2018Slides) on the role of visualisation in inference
+- JD Long's ["The unreasonable effectiveness of empathy"](https://github.com/rstudio/rstudio-conf/blob/master/2018/Rstudio_%20unreasonable%20empathy.pdf)
+- Ways to improve workflows and collaboration:
+    - [Sandra Griffith](https://twitter.com/sgrifter) of Flatiron Health and [Emily Riederer](https://twitter.com/EmilyRiederer) of CapitalOne both talked about the process of growing an R-centric environment at their workplaces ([Emily's slides](https://www.slideshare.net/EmilyRiederer/tidycf-turning-cashflows-on-their-sides-to-turn-analysis-on-its-head)). Both these women have worked hard to get their teams using a consistent R framework, and they have great thoughts and ideas about how to start and maintain that environment.
+    - [Elaine McVey](http://www.datawoman.com/) talked about incorporating Agile software development practices into her data science workflow (summarized [here](http://datawoman.com/2018/02/the-pain-of-data-science-in-organizations/) and [here](http://datawoman.com/2018/02/using-agile-to-change-the-data-science-conversation/)).
+    - The [`usethis`](https://cran.r-project.org/web/packages/usethis/index.html) package has been around awhile, but between Hadley's workshop and Jim Hester's talk on creating an R package in 20 minutes, I'm convinced that I need to dig more into it and keep an eye on what the RStudio team is adding.
+    
+        ```{r echo = FALSE}
+        blogdown::shortcode("tweet", "959874496139165696")
+    
+        ```
+    
+- [Carson Sievert](http://cpsievert.me/) blew everyone's minds with his talk on [interactive exploratory data analysis](https://talks.cpsievert.me/20180202). I'm excited to dig into his code.
+- Work from [Edzer Pebesma](https://github.com/edzer/rstudio_conf) on spatial data, [Thomas Lin Pedersen](https://www.data-imaginist.com/slides/rstudioconf2018/assets/player/keynotedhtmlplayer#0) on network analysis, and [Davis Vaughn](https://github.com/business-science/presentations/tree/master/2018_02_02_rstudio-conf-2018/presentation) and [Earo Wang](https://earo.me/talk/rstudioconf18/) on time series tools made those things look so fun that I wish my work involved them. One day... *(Side note: Earo wrote a [blog post](https://t.co/cMldNQEh1D) comparing the `tibbletime` and `tsibble` packages.)*
+
+Again, many MANY thanks to RStudio for the opportunity to attend this year! The entire experience was both fun and incredibly useful. Next year is already [in the works](https://www.rstudio.com/conference/)...
