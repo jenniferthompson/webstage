@@ -18,11 +18,11 @@ Earlier this month I participated in rstudio::conf 2018 in San Diego (many, many
 
 Empathy was all over this conference - in the scope of the program, for example, which made sure to have a place for all levels of R users and people from all sorts of backgrounds, and in the emphasis on well-designed, useful tools. In his great talk on "[The Unreasonable Effectiveness of Empathy](https://www.youtube.com/watch?v=P7VnKgVMLvY)" *(previous version)*, JD Long talked about how putting ourselves in someone else's shoes can be incredibly helpful for both us and those receiving our work. [Kayla Patel](https://paylakatel.github.io/) talked about developing a Shiny dashboard for [Imagine Boston 2030](https://analytics.boston.gov/app/imagine-boston) that keeps her end user and their goals in mind first and foremost. At the closing fireside chats, [Eduardo Ariño de la Rubia](https://www.linkedin.com/in/earino/) had some important thoughts on the data science hiring process and workers' identity in a changing society.
     
-        ```{r echo = FALSE}
-        blogdown::shortcode("tweet", "959945435216408577")
-    
-        ```
+```{r echo = FALSE}
+blogdown::shortcode("tweet", "959945435216408577")
 
+```
+    
 I'll stop here, but I could go on. It was so evident that the group gathered cares about all facets of users' experiences, from tools to community.
 
 ### Cross-pollination
@@ -43,10 +43,10 @@ The conference very intentionally had a welcoming, community-focused vibe, start
 
 People were encouraged over and over to take what they'd learned and immediately contribute to the community or to their workplace. Several of the RStudio team's talks focused on how to contribute to R, whether via writing your own packages; contributing to other people's, as [Mara Averick](twitter.com/dataandme) encouraged us to do...
 
-        ```{r echo = FALSE}
-        blogdown::shortcode("tweet", "959883234937991174")
+```{r echo = FALSE}
+blogdown::shortcode("tweet", "959883234937991174")
     
-        ```
+```
 
 ...or taking new skills and and ideas and improving your own workflows and practices. As much or more than "look at the cool stuff [Well Known Person] does," people seemed to feel really excited about what *they* could do and how they could collaborate and contribute.
 
@@ -57,11 +57,11 @@ I got to wear my Chacos in January, and I'll be forever grateful. Also there wer
 ### Practicality
 
 Every talk I went to was about something powerful in its application - whether that was presenting analysis to the end user in a way that was clear and communicative, or a tool to make [data people's] lives easier, or a way to teach and empower other people. The sessions weren't overly technical in an attempt to impress; they were full of excitement and ideas for future work. I can't really say it better than JD:
-    
-        ```{r echo = FALSE}
-        blogdown::shortcode("tweet", "959856196369793024")
-    
-        ```
+
+```{r echo = FALSE}
+blogdown::shortcode("tweet", "959856196369793024")
+
+```
 
 That focus on useful, impactful tools and case studies helped me feel like I could immediately contribute to the community and improve my own work.
 
