@@ -1,6 +1,6 @@
 ---
 title: "Resources"
-description: "Presentations, tutorials, other writing"
+description: "Presentations, tutorials, and other writing"
 featured_image: '/images/ganier_snow.jpg'
 ---
 
