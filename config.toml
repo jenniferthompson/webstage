@@ -1,7 +1,7 @@
 title        = "Jennifer Thompson"
 baseURL      = "https://jenthompson.me"
 languageCode = "en-us"
-theme        = "gohugo-theme-ananke"
+theme = "gohugo-theme-ananke"
 ignoreFiles  = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 enableEmoji  = true
 
