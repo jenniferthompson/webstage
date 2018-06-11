@@ -8,8 +8,8 @@ featured_image: '/images/ganier_snow.jpg'
 
 - Workshops at Osaka City University, June:
     1. Clinical Data Monitoring Using R + REDCap ([Github repo](https://github.com/jenniferthompson/DataCleanExample) including [PDF tutorial](https://github.com/jenniferthompson/DataCleanExample/blob/master/dataclean.pdf))
-    1. Reproducible Research with RMarkdown
-    1. Introduction to Data Visualization Using `ggplot2`
+    1. Reproducible Research with RMarkdown: [slides](../slides/RepResRMD/rmarkdownworkshop.html), [Github](https://github.com/jenniferthompson/RepResearchRMarkdown)
+    1. Introduction to Data Visualization Using `ggplot2`: [slides](../slides/DataVisggplot22018/datavis_ggplot2.html), [Github](https://github.com/jenniferthompson/datavisggplot2)
 
 # 2017
 
