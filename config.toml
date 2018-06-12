@@ -36,7 +36,3 @@ enableRobotsTXT        = true
 
 [permalinks]
   post = "/:year/:month/:day/:slug/"
-
-[[menu.main]]
-    name = "Resources"
-    url = "/resources"
