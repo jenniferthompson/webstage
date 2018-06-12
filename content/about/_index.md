@@ -24,8 +24,8 @@ Other fun things I'm involved in include:
 
 > <small><i>The Collaborative is a nationwide quality improvement project which aims to optimize outcomes for critically ill patients. I provided regular progress reports to inform and motivate sites during data collection, and am working with clinical PIs to examine the association of Bundle performance with relevant clinical outcomes.</i></small>
 
-- [Data for Democracy](http://datafordemocracy.org)
 - [rOpenSci](https://ropensci.org)
+- [Data for Democracy](http://datafordemocracy.org)
 - Board member, [The Living Water Project](http://www.livingwaterwells.org)
 
 # Photo Credits

@@ -39,4 +39,4 @@ enableRobotsTXT        = true
 
 [[menu.main]]
     name = "Resources"
-    url = "/resources/index.html"
+    url = "/resources"
