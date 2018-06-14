@@ -2,6 +2,8 @@
 title: "About"
 description: "Hi. It's good to meet you."
 featured_image: '/images/Drottninggatan.jpg'
+images:
+ - /images/Drottninggatan.jpg
 ---
 
 <p style="text-align:center">one-page resume (forthcoming!) | <a href = "cv.pdf">academic CV</a></p>
