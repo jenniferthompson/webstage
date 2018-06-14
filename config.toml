@@ -10,7 +10,7 @@ DefaultContentLanguage = "en"
 SectionPagesMenu       = "main"
 Paginate               = 5
 googleAnalytics        = ""
-enableRobotsTXT        = true
+enableRobotsTXT        = false
 
 [sitemap]
   changefreq = "monthly"
