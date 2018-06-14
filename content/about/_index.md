@@ -4,6 +4,13 @@ description: "Hi. It's good to meet you."
 featured_image: '/images/Drottninggatan.jpg'
 ---
 
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@jent103">
+<meta name="twitter:creator" content="@jent103">
+<meta name="twitter:title" content="About Jennifer">
+<meta name="twitter:description" content="About Jennifer Thompson">
+<meta name="twitter:image" content="/images/Drottninggatan.jpg">
+
 <p style="text-align:center">one-page resume (forthcoming!) | <a href = "cv.pdf">academic CV</a></p>
 
 I use data as a tool to help me and my collaborators understand the world. Because numbers mean nothing without communication and context, I'm always trying to improve not only my statistical and programming skills, but how I collaborate with others on developing research ideas and communicating results. I love building community and working with people and data that facilitate understanding and progress.
