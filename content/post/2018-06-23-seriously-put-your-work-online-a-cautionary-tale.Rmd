@@ -2,7 +2,7 @@
 title: 'Seriously, Put Your Work Online: A Cautionary Tale'
 author: Jennifer Thompson
 date: '2018-06-23'
-featured_image: '/images/spicedrawerosaka.jpg'
+featured_image: '/images/geniusbarginza.jpg'
 slug: work-online-cautionary
 categories:
   - horror stories
