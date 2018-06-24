@@ -8,7 +8,7 @@ enableEmoji  = true
 MetaDataFormat         = "yaml"
 DefaultContentLanguage = "en"
 SectionPagesMenu       = "main"
-Paginate               = 5
+Paginate               = 3
 googleAnalytics        = ""
 enableRobotsTXT        = true
 
