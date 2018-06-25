@@ -4,7 +4,7 @@ author: Jennifer Thompson
 date: '2018-06-23'
 featured_image: '/images/geniusbarginza.jpg'
 images:
- - /images/geniusbarginza.jpg
+ - /images/geniusbarginza2to1.jpeg
 slug: work-online-cautionary
 categories:
   - horror stories
