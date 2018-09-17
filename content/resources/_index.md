@@ -6,8 +6,8 @@ featured_image: '/images/ganier_snow.jpg'
 
 # 2018
 
-- "The Life & Times of a Reproducible Clinical Project in R." *Reproducible research tools & strategies in R + an intro to [rOpenSci](https://ropensci.org).* [R/Medicine 2018](http://r-medicine.com). [Slides](../slides/RMedicine2018/rmedicine2018.html); [GitHub *(includes source for slides)*](https://github.com/jenniferthompson/RMedicine2018).
-- Talk at Joint Statistical Meetings, July: "Analyzing Summary Variables in the Presence of Partially Missing Longitudinal Data." [Slides](../slides/JSM2018/jsm2018.html), [GitHub](https://github.com/jenniferthompson/MissSumVars).<br>*Exploration of methods for handling partial missingness in a summarized exposure variable.*
+- "The Life & Times of a Reproducible Clinical Project in R." Invited talk at [R/Medicine](https://r-medicine.com), September, New Haven, CT. [Slides](../slides/RMedicine2018/rmedicine2018.html); [GitHub *(includes source for slides)*](https://github.com/jenniferthompson/RMedicine2018).<br>*Reproducible research tools & strategies in R + an intro to [rOpenSci](https://ropensci.org).*
+- "Analyzing Summary Variables in the Presence of Partially Missing Longitudinal Data." Talk at Joint Statistical Meetings, July, Vancouver, BC. [Slides](../slides/JSM2018/jsm2018.html), [GitHub](https://github.com/jenniferthompson/MissSumVars).<br>*Exploration of methods for handling partial missingness in a summarized exposure variable.*
 - Workshops at Osaka City University, June:
     1. Clinical Data Monitoring Using R + REDCap ([Github repo](https://github.com/jenniferthompson/DataCleanExample) including [PDF tutorial](https://github.com/jenniferthompson/DataCleanExample/blob/master/dataclean.pdf))
     1. Reproducible Research with RMarkdown: [slides](../slides/RepResRMD/rmarkdownworkshop.html), [Github](https://github.com/jenniferthompson/RepResearchRMarkdown)
