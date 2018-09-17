@@ -10,7 +10,7 @@ images:
 
 I use data as a tool to help me and my collaborators understand the world. Because numbers mean nothing without communication and context, I'm always trying to improve not only my statistical and programming skills, but how I collaborate with others on developing research ideas and communicating results. I love building community and working with people and data that facilitate understanding and progress.
 
-I use R for data wrangling, statistical analysis, visualization, and reproducible reporting. You can find lots of my code on [Github](http://github.com/jenniferthompson), including two R packages: [ClusterBootMultinom](https://github.com/jenniferthompson/ClusterBootMultinom) and [JTHelpers](https://github.com/jenniferthompson/JTHelpers). I've done several talks and workshops on statistical and programming topics; you can find those on my [Resources page](../resources).
+I use R for data wrangling, statistical analysis, visualization, and reproducible reporting. You can find lots of my code on [Github](http://github.com/jenniferthompson), including two R packages: [ClusterBootMultinom](https://github.com/jenniferthompson/ClusterBootMultinom) and [JTHelpers](https://github.com/jenniferthompson/JTHelpers). You can find my talks and workshops on statistics, reproducible research, and programming on my [Resources page](../resources).
 
 <img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:216px;height:325px" src="/images/jt_mostprofesh.jpg"" alt = "Me"">
 
