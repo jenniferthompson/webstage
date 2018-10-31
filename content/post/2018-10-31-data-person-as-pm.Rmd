@@ -3,6 +3,10 @@ title: The Data Person as Project Manager
 author: Jennifer Thompson
 date: '2018-10-31'
 slug: data-person-as-pm
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
 categories:
   - project management
   - logistics
@@ -15,14 +19,15 @@ featured_image: '/images/tuscan_serenity-min.jpg'
 
 *This post accompanies my [talk](https://ww2.amstat.org/meetings/wsds/2018/onlineprogram/AbstractDetails.cfm?AbstractID=304811) at the 2018 [Women in Statistics & Data Science](https://ww2.amstat.org/meetings/wsds/2018/) conference ([full slide deck](https://github.com/jenniferthompson/WSDS2018)). The header photo was taken while enjoying some snacks and beverages on a hill in Tuscany on a spring afternoon, and it represents the serenity I want all of us to feel about these project management tasks. #goals*
 
-I’m currently the primary biostatistician working with a group of over ten principal clinical investigators. That lots of projects and lots of people with conflicting timelines and priorities.
+I’m currently the primary biostatistician working with a group of over ten principal clinical investigators. That means lots of projects and lots of people
+with conflicting timelines and priorities.
 
 ```{r, echo = FALSE}
-knitr::include_graphics("../../static/images/biostatlifecycle.png")
+knitr::include_graphics("/images/biostatlifecycle.png")
 ```
 
-There’s a fantastic team involved throughout the process - but the stats team is
-the only one involved at *every* step. This is often true for corporate data
+There’s a fantastic team involved all along the way - but the stats team is
+often deeply involved at *every* step. This is often true for corporate data
 science as well: there are business stakeholders involved at some points, domain
 experts or infrastructure teams at other points, but the data scientist is there
 for the entire timeline.
@@ -75,40 +80,36 @@ weekly.)
 What are your group’s goals? Revenue, grants, patient care - you can have
 several, of course, but delineating them "out loud" gives you criteria for which
 projects to take on and which should take a backseat. Our group is full of
-fantastic ideas, but we have definitely had times when I’ve worked on one of
-those ideas for a month or two, and then the analysis was left untouched,
-temporarily or permanently, because the project or idea didn’t truly move us
-toward our goals as a team or as individuals at that moment. It happens to the
-best of us, and we can learn from those experiences.
+fantastic ideas, but we've absolutely had learning experiences where we spent time on a project that never quite got done (or got done... eventually), because
+it turns out those projects weren't really getting us to our goals at that
+moment. It happens to the best of us, and we can learn from those experiences.
 
-Once you’ve determined a project is worth taking on, and you’ve defined the initial project goals, we all need to watch out for [scope creep](https://en.wikipedia.org/wiki/Scope_creep). This is when someone says
+Once you’ve determined a project is worth taking on, and you’ve defined its initial goals, we all need to watch out for [scope creep](https://en.wikipedia.org/wiki/Scope_creep). Scope creep might sound like
 “as long as you’re in that database, can you look at these other things too?” Or
-“Wait, what happens if we do it THIS way?!” These can be great ideas worth incorporating! But sometimes they just derail us from our goals. Planning, and
-then *documenting changes* to your plan, is incredibly helpful for setting your
-intention; for making sure everyone understands the goals and methods of the
-project; and for outlining the steps that will help your team get to your goal.
+“Wait, what happens if we do it THIS way?!” These can be great ideas worth incorporating! But sometimes they just derail us from our mission. Creating a
+plan, and then *documenting* the inevitable changes to your plan, is incredibly helpful for setting your intention; for making sure everyone understands the goals and methods of the project; and for outlining the steps that will help
+your team get to your goal.
 
-*(In our, we’ve successfully used our statistical analysis plan to handle this. We recently had a major clinical trial [published](https://nejm.org/doi/full/10.1056/NEJMoa1808217); particularly in
+*(In our context, we’ve successfully used our statistical analysis plan to
+handle this. We recently had a major clinical trial [published](https://nejm.org/doi/full/10.1056/NEJMoa1808217); particularly in
 that scenario, the SAP is a big deal, and we [registered ours publicly](https://osf.io/mq38r) so that it’s clear that we didn’t do any manipulation of our outcomes after we knew the treatment assignments. One added
 advantage of that formal registration: Whenever one of us got an idea for
 additional analysis while we were working on the primary manuscript, we were
 able to collectively say “That’s a great idea. We’d have to update the SAP, and
 it would be after we broke the blind. Is it important enough for that?” And in
-this case, the answer was always no. :) Keeping that project focused on what was
-in our SAP - reflective of our primary goals - meant we were able to finish and
-publish our work efficiently, without being derailed by interesting but
-secondary side questions. The most important ideas will come back up in later
-discussion, and we’ll develop a thoughtful plan for them then.)*
+this case, the answer was always no. :) Keeping that project focused using the
+SAP meant we were able to publish our work efficiently, without being derailed
+by interesting but secondary side questions. The most important ideas will come back up in later discussion, and we’ll develop a thoughtful plan for them then.)*
 
-Of course, having the best plan in the world doesn’t help if you can’t actually execute it. There are many weeks when I come into work thinking I know exactly what I’ll be working on, and end the week wondering just exactly where it went. (🙋 if you feel me.) Getting “distracted” by these smaller requests can be not only frustrating for the analyst, but keep the team from focusing on our primary
-goals.
+Of course, having the best plan in the world doesn’t help if you can’t actually execute it. There are many weeks when I come into work thinking I know exactly what I’ll be working on, and end the week wondering just exactly where it went. (🙋 if you feel me.) Getting “distracted” by smaller, one-off requests can be
+not only frustrating for the analyst, but keep the team from focusing on our primary goals.
 
 We’ve instituted a system inspired by software development strategies: I spend two weeks of my time working on “major” projects that require lots of focus and move us toward our group goals, and the next week on important but smaller
 projects that can be stacked and done in batches. These might look like those
 “hey, can you tell me how many people…” requests, or journal revisions, or tweaking visualizations.
 
 ```{r, echo = FALSE}
-knitr::include_graphics("../../static/images/focusadhoc.png")
+knitr::include_graphics("/images/focusadhoc.png")
 ```
 
 We’ve been using this system for about six months now; it has allowed us to push that clinical trial through to publication in a reasonable time frame (with a much happier biostatistician), while still allowing the daily business of clinical research to take place. In short, I’m a big fan.
@@ -135,7 +136,7 @@ define who is **responsible** for executing the task; who is ultimately
 task; and who is simply **informed** about those decisions.
 
 ```{r, echo = FALSE}
-knitr::include_graphics("../../static/images/raciexample.png")
+knitr::include_graphics("/images/raciexample.png")
 ```
 
 Knowing the core team responsible for a specific task means we know who to
@@ -149,31 +150,34 @@ We’ve also recently started using a project request form for new statistical p
 - The reason/goal for the project,
 - Who is *accountable* for the project, + additional team members who will help
 steer it
-- Logistical information (always deadlines!; in our context, that also includes any manuscript drafts or table shells that are already written and funding/data sources)
+- Logistical information (always deadlines!; in our context, that also includes [IRB](https://en.wikipedia.org/wiki/Institutional_review_board) permissions, any
+manuscript drafts or table shells that are already written, and funding/data sources)
 
-Asking about these potential logistical hurdles beforehand will, we hope, streamline our projects. (For example, if I’m not listed as key study personnel with the [IRB](https://en.wikipedia.org/wiki/Institutional_review_board), I
-can’t legally access the data, and it’s more efficient to ask the investigator
-about that early on vs the day I want to start the project.)
+This information helps us prioritize, streamline, and keep an eye out for any
+logistical hurdles we need to overcome before starting analysis or planning.
 
 We’re also working on onboarding documents for new team members, with
 information like how and when to contact the biostats team; where our documents
 and data are stored; and what we expect both of our investigators and of
-ourselves. We’re hopeful that collecting all this information in one spot will
-be useful for our new clinical and statistical team members, and help emphasize
-that we’re all on the same team with the same goals.
+ourselves. We hope that collecting all this information in one spot will be
+useful for our new clinical and statistical team members, and help emphasize
+that we’re all on the same team with the same goals. TBD!
 
 # Systemic Considerations
 
-When thinking about how to implement project management strategies, it’s important to understand what is valued by your organization and the career path that you’re on - and to know what you value! If you’re in an academic tenure track position, for example, most likely no one is asking you how efficiently your collaborators’ first author papers were written, and thus it doesn’t make sense to spend a lot of your time on these tasks - but they may be highly valued in a different position or organization. Understanding what will move *you* forward and what you enjoy is key to meeting your own professional goals as well
-as your team's.
+It’s important to understand what is valued by your organization and the career
+path that you’re on - and to know what *you* value! If you’re in an academic tenure track position, for example, most likely no one on your promotion
+committee is asking you how efficiently your collaborators’ first author papers
+were written, and thus it doesn’t make sense to spend a lot of your time on
+these tasks - but they may be highly valued in a different position or organization. Understanding what will move *you* forward and what you enjoy is key to meeting your own professional goals as well as your team's.
 
-If you’re a manager or a supervisor, and you see folks doing a lot of this
-[“glue work”](https://www.slideshare.net/TanyaReilly/being-glue) without
-recognition or compensation, *please* step in and have a conversation about it!
-A lot of us in data work are collaborative by nature, aiming to be helpful and
-fix inefficiencies. That is valuable to our teams, but if we’re spending "too
-much" time on tasks (PM or otherwise) that won’t be considered by those doing
-the promoting or hiring, it will hurt us long-term.
+If you’re a manager or a supervisor, *please* be aware of how much
+[“glue work”](https://www.slideshare.net/TanyaReilly/being-glue) your employees
+are doing! A lot of us in data work are collaborative by nature, aiming to be
+helpful and fix inefficiencies. That is valuable to our teams, but if we’re
+spending "too much" time on tasks (PM or otherwise) that won’t be considered by those doing the promoting or hiring, it will hurt us long-term. New employees
+aren't always in the best position to know what "too much" looks like in their
+organization, and supervisors can provide resources and valuable calibration.
 
 # Recognition & Thanks!
 
