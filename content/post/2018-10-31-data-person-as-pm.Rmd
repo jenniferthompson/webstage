@@ -23,7 +23,7 @@ I’m currently the primary biostatistician working with a group of over ten pri
 with conflicting timelines and priorities.
 
 ```{r, echo = FALSE}
-knitr::include_graphics("/images/biostatlifecycle.png")
+knitr::include_graphics("/images/biostatlifecycle-min.png")
 ```
 
 There’s a fantastic team involved all along the way - but the stats team is
@@ -109,7 +109,7 @@ projects that can be stacked and done in batches. These might look like those
 “hey, can you tell me how many people…” requests, or journal revisions, or tweaking visualizations.
 
 ```{r, echo = FALSE}
-knitr::include_graphics("/images/focusadhoc.png")
+knitr::include_graphics("/images/focusadhoc-min.png")
 ```
 
 We’ve been using this system for about six months now; it has allowed us to push that clinical trial through to publication in a reasonable time frame (with a much happier biostatistician), while still allowing the daily business of clinical research to take place. In short, I’m a big fan.
@@ -136,7 +136,7 @@ define who is **responsible** for executing the task; who is ultimately
 task; and who is simply **informed** about those decisions.
 
 ```{r, echo = FALSE}
-knitr::include_graphics("/images/raciexample.png")
+knitr::include_graphics("/images/raciexample-min.png")
 ```
 
 Knowing the core team responsible for a specific task means we know who to
