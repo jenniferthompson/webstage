@@ -13,8 +13,10 @@ categories:
   - conferences
 tags:
   - project management
-description: ''
-featured_image: '/images/tuscan_serenity-min.jpg'
+description: 'Project management strategies for data scientists/statisticians'
+featured_image: '/images/tuscan_serenity_comp.jpg'
+images:
+ - /images/tuscan_serenity_2to1.jpg
 ---
 
 <small>*This post accompanies my [talk](https://ww2.amstat.org/meetings/wsds/2018/onlineprogram/AbstractDetails.cfm?AbstractID=304811) at the 2018 [Women in Statistics & Data Science](https://ww2.amstat.org/meetings/wsds/2018/) conference ([full slide deck](../../../../slides/WSDS2018.pdf)). The header photo was taken while enjoying some snacks and beverages on a hill in Tuscany on a spring afternoon; it represents the serenity I want all of us to feel about these project management tasks. #goals*</small>
