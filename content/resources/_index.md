@@ -6,7 +6,7 @@ featured_image: '/images/ganier_snow.jpg'
 
 # 2018
 
-- "The Statistician as Project Manager: Strategies for Serenity & Success." Talk at Women in Statistics & Data Science, October, Cincinnati, OH. [Slides](../slides/WSDS2018.pdf); [accompanying post](../2018-10-31-data-person-as-pm.html); [GitHub *(includes version with notes)*](https://github.com/jenniferthompson/WSDS2018).<br>*Project management strategies for data scientists/statisticians.*
+- "The Statistician as Project Manager: Strategies for Serenity & Success." Talk at Women in Statistics & Data Science, October, Cincinnati, OH. [Slides](../slides/WSDS2018.pdf); [accompanying post](../2018/10/31/data-person-as-pm/); [GitHub *(includes version with notes)*](https://github.com/jenniferthompson/WSDS2018).<br>*Project management strategies for data scientists/statisticians.*
 - "The Life & Times of a Reproducible Clinical Project in R." Invited talk at [R/Medicine](https://r-medicine.com), September, New Haven, CT. [Slides](../slides/RMedicine2018/rmedicine2018.html); [GitHub *(includes source for slides)*](https://github.com/jenniferthompson/RMedicine2018).<br>*Reproducible research tools & strategies in R + an intro to [rOpenSci](https://ropensci.org).*
 - "Analyzing Summary Variables in the Presence of Partially Missing Longitudinal Data." Talk at Joint Statistical Meetings, July, Vancouver, BC. [Slides](../slides/JSM2018/jsm2018.html), [GitHub](https://github.com/jenniferthompson/MissSumVars).<br>*Exploration of methods for handling partial missingness in a summarized exposure variable.*
 - Workshops at Osaka City University, June:
