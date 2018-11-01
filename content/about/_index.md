@@ -22,9 +22,9 @@ Other fun things I'm involved in include:
 
 > <small><i>R-Ladies is a worldwide organization to promote gender diversity in the R community. I coordinate [abstract reviews](https://twitter.com/RLadiesGlobal/status/903516455207088128) for the global leadership team and co-founded the [Nashville](http://www.meetup.com/rladies-nashville) chapter of R-Ladies with [Lucy D'Agostino McGowan](http://www.lucymcgowan.com). We coordinate meetups and curriculum and foster a sense of supportive community.</i></small>
 
-- Lead statistician, [Society of Critical Care Medicine ABCDEF Bundle Improvement Collaborative](http://www.iculiberation.org/About/collaborative/Pages/default.aspx)
+- Statistician, [Society of Critical Care Medicine ABCDEF Bundle Improvement Collaborative](http://www.iculiberation.org/About/collaborative/Pages/default.aspx)
 
-> <small><i>The Collaborative is a nationwide quality improvement project which aims to optimize outcomes for critically ill patients. I provided regular progress reports to inform and motivate sites during data collection, and am working with clinical PIs to examine the association of Bundle performance with relevant clinical outcomes.</i></small>
+> <small><i>The Collaborative is a nationwide quality improvement project which aims to optimize outcomes for critically ill patients. I provided regular progress reports to inform and motivate sites during data collection, and worked with clinical investigators to examine the association of Bundle performance with relevant clinical outcomes ([publication](https://doi.org/10.1097/CCM.0000000000003482)).</i></small>
 
 - [rOpenSci](https://ropensci.org)
 - [Data for Democracy](http://datafordemocracy.org)
@@ -33,3 +33,7 @@ Other fun things I'm involved in include:
 # Photo Credits
 
 [Jen McDonald](http://www.jenmphotography.com) took my headshots. All other photos are [by me](https://www.flickr.com/photos/jenthompson). (This one was taken on Drottninggatan in Stockholm, summer 2016.)
+
+<hr>
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
