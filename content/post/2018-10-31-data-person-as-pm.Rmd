@@ -98,6 +98,10 @@ this case, the answer was always no. :) Keeping that project focused using the
 SAP meant we were able to publish our work efficiently, without being derailed
 by interesting but secondary side questions. The most important ideas will come back up in later discussion, and we’ll develop a thoughtful plan for them then.]
 
+```{r, echo = FALSE}
+knitr::include_graphics("/images/planvc.png")
+```
+
 Of course, having the best plan in the world doesn’t help if you can’t actually execute it. There are many weeks when I come into work thinking I know exactly what I’ll be working on, and end the week wondering just exactly where it went. (🙋 if you feel me.) Getting “distracted” by smaller, one-off requests can be
 not only frustrating for the analyst, but keep the team from focusing on our primary goals.
 
@@ -109,7 +113,8 @@ projects that can be stacked and done in batches. These might look like those
 knitr::include_graphics("/images/focusadhoc-min.png")
 ```
 
-We’ve been using this system for about six months now; it has allowed us to push that clinical trial through to publication in a reasonable time frame (with a much happier biostatistician), while still allowing the daily business of clinical research to take place. In short, I’m a big fan.
+We’ve been using this system for about six months now; it has allowed us to push a major project through to publication in a reasonable time frame (with a much
+happier biostatistician), while still allowing the daily business of clinical research to take place. In short, I’m a big fan.
 
 As some audience members at WSDS rightfully pointed out, this is difficult to do if you’re in a situation where you have multiple stakeholders who *aren’t* coordinating with each other. (A typical academic statistician often has her
 time split between several unrelated projects. How do you execute this “focus vs
