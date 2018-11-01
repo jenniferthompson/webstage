@@ -156,7 +156,7 @@ been immensely helpful.
 
 We’ve also recently started using a project request form for new statistical projects, which helps us learn:
 
-- The reason/goal for the project,
+- The reason/goal for the project
 - Who is *accountable* for the project, + additional team members who will help
 steer it *(ie, the RACI matrix!)*
 - Logistical information *(always deadlines!; in our context, that also includes [IRB](https://en.wikipedia.org/wiki/Institutional_review_board) permissions, any
