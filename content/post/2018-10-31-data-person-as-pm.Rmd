@@ -17,33 +17,32 @@ description: ''
 featured_image: '/images/tuscan_serenity-min.jpg'
 ---
 
-*This post accompanies my [talk](https://ww2.amstat.org/meetings/wsds/2018/onlineprogram/AbstractDetails.cfm?AbstractID=304811) at the 2018 [Women in Statistics & Data Science](https://ww2.amstat.org/meetings/wsds/2018/) conference ([full slide deck](https://github.com/jenniferthompson/WSDS2018)). The header photo was taken while enjoying some snacks and beverages on a hill in Tuscany on a spring afternoon, and it represents the serenity I want all of us to feel about these project management tasks. #goals*
+<small>*This post accompanies my [talk](https://ww2.amstat.org/meetings/wsds/2018/onlineprogram/AbstractDetails.cfm?AbstractID=304811) at the 2018 [Women in Statistics & Data Science](https://ww2.amstat.org/meetings/wsds/2018/) conference ([full slide deck](../../../../slides/WSDS2018.pdf)). The header photo was taken while enjoying some snacks and beverages on a hill in Tuscany on a spring afternoon; it represents the serenity I want all of us to feel about these project management tasks. #goals*</small>
 
-I’m currently the primary biostatistician working with a group of over ten principal clinical investigators. That means lots of projects and lots of people
-with conflicting timelines and priorities.
+I’m currently the primary biostatistician working with a group of over ten
+clinical researchers. This means lots of projects - and lots of people with sometimes conflicting timelines and priorities. We have a fantastic team, parts
+of which are involved at different points in our project timelines - but the
+stats team is often deeply involved at *every* step.
 
 ```{r, echo = FALSE}
 knitr::include_graphics("/images/biostatlifecycle-min.png")
 ```
 
-There’s a fantastic team involved all along the way - but the stats team is
-often deeply involved at *every* step. This is often true for corporate data
-science as well: there are business stakeholders involved at some points, domain
-experts or infrastructure teams at other points, but the data scientist is there
-for the entire timeline.
+This is often true for corporate data science as well: there are business stakeholders involved at some points, domain experts or infrastructure teams at
+other points, but the data scientist is there for the entire timeline.
 
-Since we’re *involved* at every step, we often *manage* these steps, at least in
-part: juggling timelines of multiple stakeholders, making decisions based on
-information from data entry or infrastructure teams, creating more efficient
-processes, and keeping track of progress and following up on tasks needed for us
+In my experience, since we’re *involved* at every step, we often *manage* these
+steps, at least in part: juggling multiple stakeholders' timelines, making
+decisions based on information from data entry or infrastructure teams, creating
+more efficient processes, and following up on tasks or decisions needed for us
 to move forward. In short...
 
 **…if there is no formal project manager, often WE become a project manager.**
 
-This has advantages! We have a deeper knowledge of the data, the project, and
-the domain, and build stronger relationships with the infrastructure or data
-entry team as well as the stakeholders. This leads to more rigorous analysis,
-more relevant interpretation of results, and more effective communication of the
+This has advantages! We build a deeper knowledge of the data, the project, and
+the domain, and stronger relationships with the infrastructure or data entry
+team as well as the stakeholders. This leads to more rigorous analysis, more
+relevant interpretation of results, and more effective communication of the
 clinical or business impact. Plus many of us genuinely enjoy this work! I love
 the sense of collaboration and ownership I feel when I’m this deeply involved in
 a project.
@@ -56,18 +55,18 @@ Our stats team have developed some successful PM strategies for our context.
 Your mileage may vary; I hope you’ll take these ideas and tweak them to work in
 your specific context.
 
-# Communication
+## Communication
 
 When I first started working with our research group, I would get individual,
 uncoordinated requests from each investigator. As an inexperienced new employee
-who wanted to make everyone happy, this was a difficult situation. We now have a
+who wanted to make everyone happy, this was a difficult situation! We now have a
 weekly meeting of primary stakeholders - in our case, the biostats team and all
 the principal investigators. This is incredibly helpful for getting our team on
-the same page and coordinating our priorities and timelines. It also allows
-team members to learn from one another: our research fellows learn how to work
-with the statistical team by watching how we interact with the more senior PIs,
-and the biostatisticians learn about the clinical background and impact of each
-project.
+the same page, coordinating our priorities and timelines. It also allows team
+members to learn from one another: our research fellows learn how to work with
+the statistical team by watching how we interact with the more senior PIs, and
+the biostatisticians develop a better understanding of the clinical background
+and impact of each project.
 
 We also keep a list of priorities available to everyone in the group, so all
 the stakeholders know what projects are on my list and have a sense of when I
@@ -75,20 +74,26 @@ might get to them. This also facilitates conversations about changing priorities
 or timelines. (We keep it simple and do this via a Slack channel that I update
 weekly.)
 
-# Focus
+## Focus
 
 What are your group’s goals? Revenue, grants, patient care - you can have
 several, of course, but delineating them "out loud" gives you criteria for which
 projects to take on and which should take a backseat. Our group is full of
-fantastic ideas, but we've absolutely had learning experiences where we spent time on a project that never quite got done (or got done... eventually), because
-it turns out those projects weren't really getting us to our goals at that
-moment. It happens to the best of us, and we can learn from those experiences.
+fantastic ideas, but we've absolutely had times where we spent time on a project
+we all thought was interesting, but that never quite got done (or got done...
+eventually), because it turns out those projects weren't really getting us to
+our goals at that moment. It happens to the best of us, and we can learn from
+those experiences.
 
 Once you’ve determined a project is worth taking on, and you’ve defined its initial goals, we all need to watch out for [scope creep](https://en.wikipedia.org/wiki/Scope_creep). Scope creep might sound like
-“as long as you’re in that database, can you look at these other things too?” Or
-“Wait, what happens if we do it THIS way?!” These can be great ideas worth incorporating! But sometimes they just derail us from our mission. Creating a
-plan, and then *documenting* the inevitable changes to your plan, is incredibly helpful for setting your intention; for making sure everyone understands the goals and methods of the project; and for outlining the steps that will help
-your team get to your goal.^[In our context, we’ve successfully used our statistical analysis plan to handle this. We recently had a major clinical trial [published](https://nejm.org/doi/full/10.1056/NEJMoa1808217); particularly in
+“as long as you’re ___, can you look at these three other things too?” Or “Wait,
+what happens if we do it THIS way?!” These can be great ideas worth
+incorporating! But sometimes they just derail us from our mission. Creating a
+project plan, then *documenting* the inevitable changes to your plan, is
+incredibly helpful for setting your intention; for making sure everyone
+understands the goals and methods of the project; and for outlining the steps that will help your team get to your goal.^[In our academic research context,
+we’ve successfully used our statistical analysis plan to handle this.
+We recently had a major clinical trial [published](https://nejm.org/doi/full/10.1056/NEJMoa1808217); particularly in
 that scenario, the SAP is a big deal, and we [registered ours publicly](https://osf.io/mq38r) so that it’s clear that we didn’t do any manipulation of our outcomes after we knew the treatment assignments. One added
 advantage of that formal registration: Whenever one of us got an idea for
 additional analysis while we were working on the primary manuscript, we were
@@ -105,30 +110,31 @@ knitr::include_graphics("/images/planvc.png")
 Of course, having the best plan in the world doesn’t help if you can’t actually execute it. There are many weeks when I come into work thinking I know exactly what I’ll be working on, and end the week wondering just exactly where it went. (🙋 if you feel me.) Getting “distracted” by smaller, one-off requests can be
 not only frustrating for the analyst, but keep the team from focusing on our primary goals.
 
-We’ve instituted a system inspired by software development strategies: I spend two weeks of my time working on “major” projects that require lots of focus and move us toward our group goals, and the next week on important but smaller
-projects that can be stacked and done in batches. These might look like those
-“hey, can you tell me how many people…” requests, or journal revisions, or tweaking visualizations.
+We’ve instituted a system inspired by software development strategies: I spend two weeks working on “major” projects that require lots of focus and move us toward our group goals, and the next week on important but smaller projects that
+can be stacked and done in batches. These might look like those “hey, can you
+tell me how many people…” requests, or journal revisions, or tweaking visualizations.
 
 ```{r, echo = FALSE}
 knitr::include_graphics("/images/focusadhoc-min.png")
 ```
 
-We’ve been using this system for about six months now; it has allowed us to push a major project through to publication in a reasonable time frame (with a much
-happier biostatistician), while still allowing the daily business of clinical research to take place. In short, I’m a big fan.
+We’ve been using this system for about six months now; it has allowed us to push a major project through to publication in a reasonable time frame (with much
+happier biostatisticians), while still allowing the daily business of clinical research to take place. In short, I’m a big fan.
 
-As some audience members at WSDS rightfully pointed out, this is difficult to do if you’re in a situation where you have multiple stakeholders who *aren’t* coordinating with each other. (A typical academic statistician often has her
+> *As some audience members at WSDS rightly pointed out, this is difficult to do if you’re in a situation where you have multiple stakeholders who **aren’t** coordinating with each other. (A typical academic statistician often has her
 time split between several unrelated projects. How do you execute this “focus vs
-ad hoc” approach for a project that only funds 17% of your effort, with work required in bursts, and is with a PI who doesn’t communicate with any of your other PIs?) That’s a tough question I haven’t solved. If anyone has great ideas, I’ll happily link to them here!
+ad hoc” approach for a project that only funds 17% of your effort, with work required in bursts, and is with a collaborator who doesn’t communicate with any
+of your other collaborators?) That’s a tough question I haven’t solved. If anyone has great ideas, I’ll happily link to them here!*
 
-# Process
+## Process
 
 In your typical project, who is involved in **making decisions** about analysis
 plans or communication strategies? Hopefully we, the data people, are, along
 with the primary stakeholders. There might be additional stakeholders - mentors
 or supervisors. Maybe we have a database team or other infrastructure folks who
-help decide about data storage. Maybe we have a statistical colleague with
+help decide on data storage. Maybe we have a statistical colleague with
 expertise in a particular area… maybe we have a C-suite or a department chair we
-need to make happy. (You see where I'm going with this.) Eventually, there are
+need to make happy… (You see where I'm going with this.) Eventually, there are
 many people in the metaphorical room, and we think every decision needs to be
 run by all of them. This creates confusion, not consensus.
 
@@ -145,16 +151,16 @@ Knowing the core team responsible for a specific task means we know who to
 include in each decision. This means we don’t miss getting input from key team
 members, and don’t spend time waiting on consensus from the people who aren’t
 directly involved. We haven’t gone through this formal process with the whole
-team, but even using it as a framework for individual projects or tasks has been
-immensely helpful.
+team, but even using it as an informal framework for individual projects has
+been immensely helpful.
 
 We’ve also recently started using a project request form for new statistical projects, which helps us learn:
 
 - The reason/goal for the project,
 - Who is *accountable* for the project, + additional team members who will help
-steer it
-- Logistical information (always deadlines!; in our context, that also includes [IRB](https://en.wikipedia.org/wiki/Institutional_review_board) permissions, any
-manuscript drafts or table shells that are already written, and funding/data sources)
+steer it *(ie, the RACI matrix!)*
+- Logistical information *(always deadlines!; in our context, that also includes [IRB](https://en.wikipedia.org/wiki/Institutional_review_board) permissions, any
+manuscript drafts or table shells that are already written, and funding/data sources)*
 
 This information helps us prioritize, streamline, and keep an eye out for any
 logistical hurdles we need to overcome before starting analysis or planning.
@@ -166,7 +172,7 @@ ourselves. We hope that collecting all this information in one spot will be
 useful for our new clinical and statistical team members, and help emphasize
 that we’re all on the same team with the same goals. TBD!
 
-# Systemic Considerations
+## Systemic Considerations
 
 It’s important to understand what is valued by your organization and the career
 path that you’re on - and to know what *you* value! If you’re in an academic tenure track position, for example, most likely no one on your promotion
@@ -175,22 +181,24 @@ were written, and thus it doesn’t make sense to spend a lot of your time on
 these tasks - but they may be highly valued in a different position or organization. Understanding what will move *you* forward and what you enjoy is key to meeting your own professional goals as well as your team's.
 
 If you’re a manager or a supervisor, *please* be aware of how much
-[“glue work”](https://www.slideshare.net/TanyaReilly/being-glue) your employees
-are doing! A lot of us in data work are collaborative by nature, aiming to be
-helpful and fix inefficiencies. That is valuable to our teams, but if we’re
-spending "too much" time on tasks (PM or otherwise) that won’t be considered by those doing the promoting or hiring, it will hurt us long-term. New employees
-aren't always in the best position to know what "too much" looks like in their
-organization, and supervisors can provide resources and valuable calibration.
+"[glue work](https://www.slideshare.net/TanyaReilly/being-glue)" your employees
+are doing! A lot of us in data-related fields are collaborative by nature,
+aiming to be helpful and fix inefficiencies. That is valuable to our teams, but
+if we’re spending "too much" time on tasks (PM or otherwise) that won’t be
+considered by those doing the promoting or hiring, it will hurt us long-term.
+New employees aren't always in the best position to know what "too much" looks
+like in their organization, and supervisors can provide resources and valuable
+calibration.
 
-# Recognition & Thanks!
+## Recognition & Thanks!
 
 - The [VUMC Strategy & Innovation Office](https://ww2.mc.vanderbilt.edu/strategyandinnovation/) has some great training workshops including some on project management, which is where I
 learned some of these techniques. If you’re at a large organization, I’d highly
-recommend looking into similar options!
+recommend looking into similar options.
 - My supervisor [Rameela Chandrasekhar](http://biostat.mc.vanderbilt.edu/wiki/Main/RameelaChandrasekhar) has been a hugely supportive teammate and collaborator in developing and supporting these practices!
 - Many thanks to [Jesse Mostipak](https://www.jessemaegan.com/) and [Sharla Gelfand](https://sharlagelfand.netlify.com/) who helped make sure this talk/post would apply to all data folks, not just those in academic environments.
 
-# More Resources
+## More Resources
 
 - [Trey Causey](https://medium.com/@treycausey/why-good-data-scientists-make-good-product-managers-and-why-theyll-be-a-little-uncomfortable-155bb9687f3) on why data scientists make good product managers (product management != project management, but some similar points)
 - [Tanya Reilly on “Being Glue”](https://www.slideshare.net/TanyaReilly/being-glue)
