@@ -8,13 +8,14 @@ images:
 
 <p style="text-align:center"><a href = "resume.pdf">resume</a> | <a href = "cv.pdf">academic CV</a></p>
 
-I use data as a tool to help me and my collaborators understand the world. Because numbers mean nothing without communication and context, I'm always trying to improve not only my statistical and programming skills, but how I collaborate with others on developing research ideas and communicating results. I love building community and working with people and data that facilitate understanding and progress.
+I use data as a tool to help me and my collaborators understand the world, particularly as it relates to medical care and research. Because numbers mean nothing without communication and context, I'm always trying to improve not only my statistical and programming skills, but how I collaborate with others on developing research ideas and communicating results. I love building community and working with people and data that facilitate understanding and progress.
 
-I use R for data wrangling, statistical analysis, visualization, and reproducible reporting. You can find lots of my code on [Github](http://github.com/jenniferthompson), including two R packages: [ClusterBootMultinom](https://github.com/jenniferthompson/ClusterBootMultinom) and [JTHelpers](https://github.com/jenniferthompson/JTHelpers). You can find my talks and workshops on statistics, reproducible research, and programming on my [Resources page](../resources).
+I have extensively used R for data wrangling, statistical analysis, visualization, and reproducible reporting; I'm currently learning SQL and Python. You can find lots of my code on [Github](http://github.com/jenniferthompson). You can find my talks and workshops on statistics, reproducible research, and programming on my [Resources page](../resources).
 
 <img style="float:right; padding-left:10px; padding-bottom:10px;padding-top:10px;width:216px;height:325px" src="/images/jt_mostprofesh.jpg"" alt = "Me"">
 
-Since 2005, I've been a biostatistician at Vanderbilt University Medical Center, primarily working with the [Center for Critical Illness, Brain Dysfunction, and Survivorship](http://www.icudelirium.org) (CIBS Center). We study topics which affect critically ill patients and their caregivers, from mechanistic causes of brain dysfunction to long-term quality of life in ICU survivors. Statistically, we deal with missing data, selection and survivorship bias, competing risks and repeated measurements; our projects range from small pilot studies to being the coordinating center for nationwide multicenter trials.
+I'm currently a data scientist at [Devoted Health](https://www.devoted.com/our-story), working to build the [best
+health care possible](https://medium.com/@edparkdevoted/why-devoted-health-576516ce64e2) for our members. From 2005 to 2018, I was a biostatistician at Vanderbilt University Medical Center, primarily working with the [Center for Critical Illness, Brain Dysfunction, and Survivorship](http://www.icudelirium.org) (CIBS Center) on projects ranging from small pilot studies to being the coordinating center for nationwide multicenter trials.
 
 Other fun things I'm involved in include:
 
@@ -27,7 +28,6 @@ Other fun things I'm involved in include:
 > <small><i>The Collaborative is a nationwide quality improvement project which aims to optimize outcomes for critically ill patients. I provided regular progress reports to inform and motivate sites during data collection, and worked with clinical investigators to examine the association of Bundle performance with relevant clinical outcomes ([publication](https://doi.org/10.1097/CCM.0000000000003482)).</i></small>
 
 - [rOpenSci](https://ropensci.org)
-- [Data for Democracy](http://datafordemocracy.org)
 - Board member, [The Living Water Project](http://www.livingwaterwells.org)
 
 # Photo Credits
