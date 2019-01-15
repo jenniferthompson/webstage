@@ -42,7 +42,9 @@ We started data collection in March 2017, and will eventually enroll 312 patient
 
 ![Screencap of MOSAIC dashboard](/images/flexdash_example.png)
 
-<small>*Out of an abundance of caution for sharing patient information, I'm not sharing the actual dashboard here.*</small>
+~<small>*Out of an abundance of caution for sharing patient information, I'm not sharing the actual dashboard here.*</small>~
+
+*Update January 2019: The actual dashboard for this study can be seen [here](/examples/progressdash.html)! I used the same technique for [a later study](/examples/insight_progress.html) as well. Thanks to PIs Brummel and Patel for allowing me to share these!*
 
 ## Flexdashboard Primer for the Unfamiliar
 
